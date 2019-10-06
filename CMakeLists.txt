@@ -59,7 +59,6 @@ target_include_directories(crypto
 target_link_libraries(crypto
     PUBLIC
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} 
-#cyng::bio
     PRIVATE
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY}
 )
@@ -68,3 +67,26 @@ include(GNUInstallDirs)
 install(TARGETS crypto
 	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/cyng)
+
+
+find_package(Boost 1.70 REQUIRED COMPONENTS unit_test_framework)
+if(Boost_FOUND)
+	include (test/unit-test.cmake)
+	add_executable(unit_test ${unit_test})
+
+	set_property(
+        TARGET unit_test
+        PROPERTY COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
+
+	target_include_directories(unit_test
+		PRIVATE
+			$<INSTALL_INTERFACE:include>    
+			"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${Boost_INCLUDE_DIRS};${OPENSSL_INCLUDE_DIR}>"
+			${CMAKE_CURRENT_SOURCE_DIR}/src
+	)
+
+	target_link_libraries(unit_test
+		PRIVATE
+			crypto ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 
+	)
+endif(Boost_FOUND)

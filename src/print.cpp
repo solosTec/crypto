@@ -8,9 +8,7 @@
 #include <cyng/print.h>
 #include <cyng/factory.h>
 #include <cyng/bio.h>
-//#include <openssl/evp.h>
-//#include <openssl/rsa.h>
-//#include <openssl/x509.h>
+#include <cyng/read.h>
 
 namespace cyng 
 {
@@ -54,22 +52,22 @@ namespace cyng
 			return r == 1;
 		}
 
-		//bool dump_evp(const char* filename)
-		//{
-		//	auto pkey = load_CA_private_key(filename);
-		//	if (!pkey)	return false;
-		//	print_stdout_public(pkey.get());
-		//	print_stdout_private(pkey.get());
-		//	print_stdout_params(pkey.get());
-		//	return true;
-		//}
+		bool dump_evp(const char* filename)
+		{
+			auto pkey = load_CA_private_key(filename);
+			if (!pkey)	return false;
+			print_stdout_public(pkey.get());
+			print_stdout_private(pkey.get());
+			print_stdout_params(pkey.get());
+			return true;
+		}
 
-		//bool dump_x509(const char* filename)
-		//{
-		//	auto biop = create_bio_file(filename, "r");
-		//	auto x509 = PEM_read_bio_X509(biop.get(), NULL, 0, NULL);
-		//	if (x509 == nullptr)	return false;
-		//	return print_stdout_X509(x509);
-		//}
+		bool dump_x509(const char* filename)
+		{
+			auto biop = create_bio_file(filename, "r");
+			auto x509 = PEM_read_bio_X509(biop.get(), NULL, 0, NULL);
+			if (x509 == nullptr)	return false;
+			return print_stdout_X509(x509);
+		}
 	}
 }

@@ -21,8 +21,8 @@ namespace cyng
 		bool print_stdout_X509(X509*);
 		bool print_stdout_RSA(RSA*);
 
-		//bool dump_evp(const char* filename);
-		//bool dump_x509(const char* filename);
+		bool dump_evp(const char* filename);
+		bool dump_x509(const char* filename);
 	}
 }
 
