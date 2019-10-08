@@ -11,6 +11,11 @@ namespace cyng
 {
 	namespace crypto
 	{
+		BIO_ptr create_bio()
+		{
+			return BIO_ptr(nullptr, BIO_free);
+		}
+
 		BIO_ptr create_bio_file(const char *filename, const char *mode)
 		{
 			//

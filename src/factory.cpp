@@ -63,6 +63,10 @@ namespace cyng
 			return EVP_MD_CTX_ptr(EVP_MD_CTX_new(), EVP_MD_CTX_free);
 		}
 
+		SSL_CTX_ptr create_ssl_ctx()
+		{
+			return SSL_CTX_ptr(nullptr, SSL_CTX_free);
+		}
 
 		SSL_CTX_ptr create_ssl_ctx_v23()
 		{
@@ -78,6 +82,12 @@ namespace cyng
 		{
 			return SSL_CTX_ptr(SSL_CTX_new(SSLv23_server_method()), SSL_CTX_free);
 		}
+
+		SSL_CTX_ptr create_ssl_ctx_dtls()
+		{
+			return SSL_CTX_ptr(SSL_CTX_new(DTLS_method()), SSL_CTX_free);
+		}
+
 
 		SSLptr create_ssl(SSL_CTX* ctx)
 		{

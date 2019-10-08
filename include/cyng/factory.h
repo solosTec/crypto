@@ -61,9 +61,11 @@ namespace cyng
 		 * create an SSL context
 		 * The supported protocols are SSLv2, SSLv3, TLSv1, TLSv1.1 and TLSv1.2.
 		 */
+		SSL_CTX_ptr create_ssl_ctx();
 		SSL_CTX_ptr create_ssl_ctx_v23();
 		SSL_CTX_ptr create_ssl_ctx_v23_client();
 		SSL_CTX_ptr create_ssl_ctx_v23_server();
+		SSL_CTX_ptr create_ssl_ctx_dtls();
 
 		SSLptr create_ssl(SSL_CTX*);
 

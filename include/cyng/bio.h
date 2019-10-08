@@ -15,6 +15,11 @@ namespace cyng
 	namespace crypto
 	{
 		/**
+		 * Create a BIO nullptr
+		 */
+		BIO_ptr create_bio();
+
+		/**
 		 * Generates a BIO object
 		 * Example:
 		 @ccode
