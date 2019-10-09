@@ -5,7 +5,7 @@
 *
 */
 
-#include <cyng/init.h>
+#include <crypto/init.h>
 #include <openssl/ssl.h>
 #include <openssl/engine.h>
 #include <openssl/conf.h>

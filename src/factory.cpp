@@ -5,7 +5,7 @@
 *
 */
 
-#include <cyng/factory.h>
+#include <crypto/factory.h>
 #include <assert.h>
 
 namespace cyng 

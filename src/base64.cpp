@@ -5,9 +5,9 @@
  * 
  */ 
 
-#include <cyng/base64.h>
-#include <cyng/bio.h>
-#include <cyng/crypto.h>
+#include <crypto/base64.h>
+#include <crypto/bio.h>
+#include <crypto/crypto.h>
 #include <iostream>
 #include <sstream>
 #include <vector>

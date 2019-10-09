@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_FACTORY_H
 #define CYNG_CRYPTO_FACTORY_H
 
-#include <cyng/crypto.h>
+#include <crypto/crypto.h>
 
 namespace cyng
 {

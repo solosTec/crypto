@@ -12,7 +12,7 @@ set (unit_test_cpp
 )
     
 set (unit_test_h
-    include/cyng/crypto.h
+    include/crypto/crypto.h
 	test/src/test-crypto-001.h
 	test/src/test-crypto-003.h
 	test/src/test-crypto-004.h
