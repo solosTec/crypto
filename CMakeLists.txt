@@ -29,6 +29,11 @@ message(STATUS "**                           ********  **  **                   
 message(STATUS "**                          *      ****     **                              ")
 message(STATUS "**")
 
+if (CMAKE_COMPILER_IS_GNUCXX)
+    set(GLOBAL_LIBRARY_TYPE SHARED)
+elseif(MSVC)
+    set(GLOBAL_LIBRARY_TYPE STATIC)
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 find_package(OpenSSL 1.0.2 REQUIRED)
 if(OPENSSL_FOUND)
@@ -45,7 +50,7 @@ endif(OPENSSL_FOUND)
 #
 #	define the crypto library
 #
-add_library(crypto src/bio.cpp src/factory.cpp src/init.cpp src/print.cpp src/read.cpp src/write.cpp src/generate.cpp src/base64.cpp)
+add_library(crypto ${GLOBAL_LIBRARY_TYPE} src/bio.cpp src/factory.cpp src/init.cpp src/print.cpp src/read.cpp src/write.cpp src/generate.cpp src/base64.cpp)
 target_compile_features(crypto PRIVATE cxx_std_11)
 
 target_include_directories(crypto
