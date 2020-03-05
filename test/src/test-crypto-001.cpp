@@ -9,7 +9,7 @@
 #include "test-crypto-001.h"
 #include <iostream>
 #include <boost/test/unit_test.hpp>
-#include <crypto/base64.h>
+#include <crypto/hash/base64.h>
 
 
 namespace cyng 

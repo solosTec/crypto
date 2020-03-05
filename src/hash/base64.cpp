@@ -5,7 +5,7 @@
  * 
  */ 
 
-#include <crypto/base64.h>
+#include <crypto/hash/base64.h>
 #include <crypto/bio.h>
 #include <crypto/crypto.h>
 #include <iostream>
