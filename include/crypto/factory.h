@@ -9,6 +9,7 @@
 #define CYNG_CRYPTO_FACTORY_H
 
 #include <crypto/crypto.h>
+#include <string>
 
 namespace cyng
 {
@@ -41,6 +42,11 @@ namespace cyng
 		X509_ptr create_x509(long v);
 
 		/**
+		 * Create a X509 from a certificate string and password
+		 */
+		X509_ptr create_x509(const std::string& certstr, const std::string& pw);
+
+		/**
 		 * create a x509 request structure
 		 * 
 		 * @param v version (mostly 1)
@@ -51,6 +57,11 @@ namespace cyng
 		 * create a key store
 		 */
 		EVP_PKEY_ptr create_evp_pkey();
+
+		/**
+		 * decode the public key for a certificate
+		 */
+		EVP_PKEY_ptr create_evp_pkey(X509* x509);
 
 		/**
 		 * create a signing context
@@ -83,6 +94,7 @@ namespace cyng
 		 * @param txt text/value of this entry
 		 */
 		bool add_entry_by_txt(X509_NAME*, const char* subject, const char* txt);
+
 
 	}
 }

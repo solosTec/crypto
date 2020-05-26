@@ -23,6 +23,14 @@ namespace cyng
 			return X509_ptr(x509p, X509_free);
 		}
 
+		X509_REQ_ptr load_x509_request(const char* filename)
+		{
+			X509_REQ* x509_reqp = nullptr;
+			auto biop = create_bio_file(filename, "r");
+			PEM_read_bio_X509_REQ(biop.get(), &x509_reqp, NULL, NULL);
+			return X509_REQ_ptr(x509_reqp, X509_REQ_free);
+		}
+
 		RSA_ptr load_private_key(const char* filename)
 		{
 			RSA* rsa = nullptr;
@@ -47,12 +55,9 @@ namespace cyng
 			return evp_pkeyp;
 		}
 
-		X509_REQ_ptr load_x509_request(const char* filename)
+		EVP_PKEY_ptr read_pub_key(BIO* p, std::string passphrase)
 		{
-			X509_REQ* x509_reqp = nullptr;
-			auto biop = create_bio_file(filename, "r");
-			PEM_read_bio_X509_REQ(biop.get(), &x509_reqp, NULL, NULL);
-			return X509_REQ_ptr(x509_reqp, X509_REQ_free);
+			return EVP_PKEY_ptr(::PEM_read_bio_PUBKEY(p, nullptr, nullptr, (void*)passphrase.c_str()), EVP_PKEY_free);
 		}
 
 	}

@@ -83,11 +83,13 @@ add_library(crypto ${GLOBAL_LIBRARY_TYPE}
 	src/bio.cpp 
 	src/factory.cpp 
 	src/init.cpp 
+	src/error.cpp 
 	src/print.cpp 
 	src/read.cpp 
 	src/write.cpp 
 	src/generate.cpp 
 	src/aes.cpp
+	src/jwt.cpp
 	src/hash/base64.cpp
 	src/hash/md5.cpp
 	src/hash/sha1.cpp

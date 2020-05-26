@@ -9,6 +9,7 @@
 #define CYNG_CRYPTO_BIO_H
 
 #include <crypto/crypto.h>
+#include <string>
 
 namespace cyng
 {
@@ -101,12 +102,25 @@ namespace cyng
 		BIO_ADDR_ptr create_bio_addr();
 
 		/**
+		 * Create BIO ptr from string (certificate) 
+		 */
+		BIO_ptr_all create_bio_str(std::string const& str);
+
+		/**
 		 * Joins two BIO chains.
 		 * @return pointer of p
 		 */
 		BIO* push(BIO_ptr p, BIO_ptr append);
 
+		/**
+		 * resets BIO to initial state
+		 */
 		bool reset(BIO_ptr);
+
+		/**
+		 * get data from BIO as string
+		 */
+		std::string to_str(BIO*);
 
 		//BIO_METHOD_ptr create_method_mem();
 		//BIO_METHOD_ptr create_method_secmem();

@@ -6,6 +6,7 @@
 */
 
 #include <crypto/factory.h>
+#include <crypto/bio.h>
 #include <assert.h>
 
 namespace cyng 
@@ -45,6 +46,13 @@ namespace cyng
 			return p;
 		}
 
+		X509_ptr create_x509(const std::string& certstr, const std::string& pw)
+		{
+			auto certbio = create_bio_str(certstr);
+			X509* x509 = PEM_read_bio_X509(certbio.get(), nullptr, nullptr, const_cast<char*>(pw.c_str()));
+			return X509_ptr(x509, X509_free);
+		}
+
 		X509_REQ_ptr create_x509_request(int v)
 		{
 			auto p = X509_REQ_ptr(X509_REQ_new(), X509_REQ_free);
@@ -56,6 +64,12 @@ namespace cyng
 		EVP_PKEY_ptr create_evp_pkey()
 		{
 			return EVP_PKEY_ptr(EVP_PKEY_new(), EVP_PKEY_free);
+		}
+
+		EVP_PKEY_ptr create_evp_pkey(X509* x509)
+		{
+			assert(x509 != nullptr);
+			return EVP_PKEY_ptr(X509_get_pubkey(x509), EVP_PKEY_free);
 		}
 
 		EVP_MD_CTX_ptr create_evp_ctx()
@@ -104,6 +118,7 @@ namespace cyng
 			auto const ret = X509_NAME_add_entry_by_txt(x509_name, subject, MBSTRING_ASC, (const unsigned char*)txt, -1, -1, 0);
 			return ret == 1;
 		}
+
 
 	}
 }

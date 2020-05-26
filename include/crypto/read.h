@@ -9,6 +9,7 @@
 #define CYNG_CRYPTO_READ_H
 
 #include <crypto/crypto.h>
+#include <string>
 
 namespace cyng
 {
@@ -28,6 +29,11 @@ namespace cyng
 		 * load (CA) private key (without password)
 		 */
 		EVP_PKEY_ptr load_CA_private_key(const char* filename);
+
+		/**
+		 * read pub key in PEM format
+		 */
+		EVP_PKEY_ptr read_pub_key(BIO*, std::string passphrase);
 
 		/**
 		 * load X509 certificate request (without password)

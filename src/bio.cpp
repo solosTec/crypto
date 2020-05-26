@@ -75,21 +75,26 @@ namespace cyng
 
 		BIO_ptr create_bio_stdout()
 		{
-			BIO* bio = nullptr;
-			bio = BIO_new_fp(stdout, BIO_NOCLOSE);
-			return BIO_ptr(bio, BIO_free);
+			return BIO_ptr(BIO_new_fp(stdout, BIO_NOCLOSE), BIO_free);
 		}
 
 		BIO_ptr create_bio_stderr()
 		{
-			BIO* bio = nullptr;
-			bio = BIO_new_fp(stderr, BIO_NOCLOSE);
-			return BIO_ptr(bio, BIO_free);
+			return BIO_ptr(BIO_new_fp(stderr, BIO_NOCLOSE), BIO_free);
 		}
 
 		BIO_ADDR_ptr create_bio_addr()
 		{
 			return BIO_ADDR_ptr(BIO_ADDR_new(), BIO_ADDR_free);
+		}
+
+		BIO_ptr_all create_bio_str(std::string const& str)
+		{
+#if OPENSSL_VERSION_NUMBER <= 0x10100003L
+			return BIO_ptr_all(BIO_new_mem_buf(const_cast<char*>(certstr.data()), certstr.size()), BIO_free_all);
+#else
+			return BIO_ptr_all(BIO_new_mem_buf(str.data(), static_cast<int>(str.size())), BIO_free_all);
+#endif
 		}
 
 		BIO* push(BIO_ptr p, BIO_ptr append)
@@ -103,6 +108,16 @@ namespace cyng
 				return BIO_reset(p.get()) == OK;
 			}
 			return false;
+		}
+
+		std::string to_str(BIO* p)
+		{
+			if (p) {
+				char* ptr = nullptr;
+				auto len = BIO_get_mem_data(p, &ptr);
+				return std::string(ptr, len);
+			}
+			return std::string{};
 		}
 
 		//BIO_METHOD_ptr create_method_mem()
