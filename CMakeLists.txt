@@ -185,13 +185,19 @@ if(${PROJECT_NAME}_BUILD_TEST)
 		target_include_directories(unit_test
 			PRIVATE
 				$<INSTALL_INTERFACE:include>    
+				${CYNG_INCLUDE}
 				"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${Boost_INCLUDE_DIRS};${OPENSSL_INCLUDE_DIR}>"
 				${CMAKE_CURRENT_SOURCE_DIR}/src
 		)
 
 		target_link_libraries(unit_test
 			PRIVATE
-				crypto ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 
+				crypto 
+				"$<$<PLATFORM_ID:Linux>:${CYNG_LIBRARY}/cyng_core.so>"
+				"$<$<PLATFORM_ID:Windows>:${CYNG_LIBRARY}/Debug/cyng_core.lib>"
+				${OPENSSL_CRYPTO_LIBRARY} 
+				${OPENSSL_SSL_LIBRARY} 
+				${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 
 		)
 	endif(Boost_FOUND)
 endif()

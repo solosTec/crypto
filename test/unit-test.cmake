@@ -10,6 +10,7 @@ set (unit_test_cpp
 	test/src/test-crypto-003.cpp
 	test/src/test-crypto-004.cpp
 	test/src/test-crypto-005.cpp
+	test/src/test-crypto-006.cpp
 )
     
 set (unit_test_h
@@ -19,6 +20,7 @@ set (unit_test_h
 	test/src/test-crypto-003.h
 	test/src/test-crypto-004.h
 	test/src/test-crypto-005.h
+	test/src/test-crypto-006.h
 )
 
 

@@ -7,7 +7,7 @@
 #ifndef TEST_CRYPTO_002_H
 #define TEST_CRYPTO_002_H
 
-#include <CYNG_project_info.h>
+//#include <CYNG_project_info.h>
 
 namespace cyng 
 {
