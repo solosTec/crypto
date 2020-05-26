@@ -60,5 +60,10 @@ namespace cyng
 			return EVP_PKEY_ptr(::PEM_read_bio_PUBKEY(p, nullptr, nullptr, (void*)passphrase.c_str()), EVP_PKEY_free);
 		}
 
+		EVP_PKEY_ptr read_priv_key(BIO* p, std::string passphrase)
+		{
+			return EVP_PKEY_ptr(::PEM_read_bio_PrivateKey(p, nullptr, nullptr, (void*)passphrase.c_str()), EVP_PKEY_free);
+		}
+
 	}
 }

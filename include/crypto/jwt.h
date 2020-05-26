@@ -24,6 +24,7 @@ namespace cyng
 		std::string extract_pubkey_from_cert(const std::string& certstr, const std::string& pw = "");
 
 		EVP_PKEY_ptr load_public_key_from_string(const std::string& key, const std::string& passphrase = "");
+		EVP_PKEY_ptr load_private_key_from_string(const std::string& key, const std::string& passphrase = "");
 
 	}
 }

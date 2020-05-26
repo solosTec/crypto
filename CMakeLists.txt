@@ -84,6 +84,7 @@ add_library(crypto ${GLOBAL_LIBRARY_TYPE}
 	src/factory.cpp 
 	src/init.cpp 
 	src/error.cpp 
+	src/bignum.cpp 
 	src/print.cpp 
 	src/read.cpp 
 	src/write.cpp 

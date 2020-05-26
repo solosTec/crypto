@@ -31,9 +31,14 @@ namespace cyng
 		EVP_PKEY_ptr load_CA_private_key(const char* filename);
 
 		/**
-		 * read pub key in PEM format
+		 * read public key in PEM format
 		 */
 		EVP_PKEY_ptr read_pub_key(BIO*, std::string passphrase);
+
+		/**
+		 * read private key in PEM format
+		 */
+		EVP_PKEY_ptr read_priv_key(BIO*, std::string passphrase);
 
 		/**
 		 * load X509 certificate request (without password)

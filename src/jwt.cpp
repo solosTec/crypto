@@ -28,7 +28,6 @@ namespace cyng
 
 		EVP_PKEY_ptr load_public_key_from_string(const std::string& key, const std::string& passphrase)
 		{
-			//std::unique_ptr<BIO, decltype(&BIO_free_all)> pubkey_bio(BIO_new(BIO_s_mem()), BIO_free_all);
 			auto pubkey_bio = create_bio_s_mem(false);
 
 			if (key.substr(0, 27) == "-----BEGIN CERTIFICATE-----") 
@@ -46,10 +45,19 @@ namespace cyng
 			}
 
 			auto pkey = read_pub_key(pubkey_bio.get(), passphrase);
-			//std::shared_ptr<EVP_PKEY> pkey(PEM_read_bio_PUBKEY(pubkey_bio.get(), nullptr, nullptr, (void*)password.c_str()), EVP_PKEY_free);
-			//if (!pkey)
-			//	throw rsa_exception("failed to load public key: PEM_read_bio_PUBKEY failed:" + std::string(ERR_error_string(ERR_get_error(), NULL)));
 			if (!pkey) throw "failed to load public key: PEM_read_bio_PUBKEY failed:" + get_error_msg();
+			return pkey;
+		}
+
+		EVP_PKEY_ptr load_private_key_from_string(const std::string& key, const std::string& passphrase)
+		{
+			auto privkey_bio = create_bio_s_mem(false);
+			const int len = static_cast<int>(key.size());
+			if (BIO_write(privkey_bio.get(), key.data(), len) != len)
+				throw "failed to load private key: bio_write failed";
+			auto pkey = read_priv_key(privkey_bio.get(), passphrase);
+			if (!pkey)
+				throw "failed to load private key: PEM_read_bio_PrivateKey failed";
 			return pkey;
 		}
 	}
