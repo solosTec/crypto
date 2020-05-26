@@ -36,6 +36,16 @@ elseif(MSVC)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 #
+# guard against in-source builds and bad build-type strings
+#
+include(cmake/safeguards.cmake)
+
+#
+# place binaries and libraries according to GNU standards
+#
+include(GNUInstallDirs)
+
+#
 #	OpenSSL
 #
 find_package(OpenSSL 1.1.0 REQUIRED)
@@ -76,10 +86,41 @@ set_property(TARGET cyng_core
 		PUBLIC_HEADER ${CYNG_INCLUDE})
 
 
+set (crypto_hash
+	src/hash/base64.cpp
+	src/hash/md5.cpp
+	src/hash/sha1.cpp
+	src/hash/sha256.cpp
+	src/hash/sha512.cpp
+	include/crypto/hash/base64.h
+	include/crypto/hash/md5.h
+	include/crypto/hash/sha1.h
+	include/crypto/hash/sha256.h
+	include/crypto/hash/sha512.h
+)
+
+set (crypto_algorithm
+	src/algorithm/none.cpp
+	src/algorithm/hmacsha.cpp
+	src/algorithm/rsa.cpp
+	src/algorithm/ecdsa.cpp
+	src/algorithm/pss.cpp
+	include/crypto/algorithm/none.h
+	include/crypto/algorithm/hmacsha.h
+	include/crypto/algorithm/rsa.h
+	include/crypto/algorithm/ecdsa.h
+	include/crypto/algorithm/pss.h
+)
+
+source_group("hash" FILES ${crypto_hash})
+source_group("algorithm" FILES ${crypto_algorithm})
+
+
 #
 #	define the crypto library
 #
 add_library(crypto ${GLOBAL_LIBRARY_TYPE} 
+	include/crypto/crypto.h
 	src/bio.cpp 
 	src/factory.cpp 
 	src/init.cpp 
@@ -91,11 +132,9 @@ add_library(crypto ${GLOBAL_LIBRARY_TYPE}
 	src/generate.cpp 
 	src/aes.cpp
 	src/jwt.cpp
-	src/hash/base64.cpp
-	src/hash/md5.cpp
-	src/hash/sha1.cpp
-	src/hash/sha256.cpp
-	src/hash/sha512.cpp)
+	src/signatures.cpp
+	${crypto_hash}
+	${crypto_algorithm})
 target_compile_features(crypto PRIVATE cxx_std_11)
 
 target_include_directories(crypto

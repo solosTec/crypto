@@ -46,6 +46,11 @@ namespace cyng
 		 */
 		using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>;
 
+		/**
+		 * An EC_KEY represents a public key and, optionally, the associated private key.
+		 */
+		using EC_KEY_ptr = std::unique_ptr<EC_KEY, decltype(&::EC_KEY_free)>;
+
 		using BIO_ptr = std::unique_ptr<BIO, decltype(&::BIO_free)>;
 		using BIO_ADDR_ptr = std::unique_ptr<BIO_ADDR, decltype(&::BIO_ADDR_free)>;
 
@@ -74,6 +79,12 @@ namespace cyng
 		using ASN1_TIME_ptr = std::unique_ptr<ASN1_TIME, decltype(&ASN1_STRING_free)>;
 
 		using X509_EXTENSION_ptr = std::unique_ptr< X509_EXTENSION, decltype(&X509_EXTENSION_free)>;
+
+		/**
+		 * ECDSA_SIG is an opaque structure consisting of two BIGNUMs for the r and s value of an 
+		 * ECDSA signature (see X9.62 or FIPS 186-2).
+		 */
+		using ECDSA_SIG_ptr = std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)>;
 	}
 }
 #endif

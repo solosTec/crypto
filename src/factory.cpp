@@ -28,7 +28,7 @@ namespace cyng
 
 		RSA_ptr create_rsa()
 		{
-			return RSA_ptr(RSA_new(), RSA_free);
+			return RSA_ptr(::RSA_new(), ::RSA_free);
 		}
 
 		RSA_ptr create_rsa_key(BIGNUM* bnp, int bits)
@@ -38,6 +38,15 @@ namespace cyng
 			assert(ret == 1);
 			return p;
 		}
+
+		RSA_ptr create_rsa_key(EVP_PKEY* key)
+		{
+			return (key != nullptr)
+				? RSA_ptr(::EVP_PKEY_get1_RSA(key), ::RSA_free)
+				: create_rsa()
+				;
+		}
+
 
 		X509_ptr create_x509(long v)
 		{
@@ -72,9 +81,29 @@ namespace cyng
 			return EVP_PKEY_ptr(X509_get_pubkey(x509), EVP_PKEY_free);
 		}
 
+		EC_KEY_ptr create_ec_key()
+		{
+			return EC_KEY_ptr(EC_KEY_new(), EC_KEY_free);
+		}
+
+		EC_KEY_ptr create_ec_pub_key(BIO* bio, std::string pub_pwd)
+		{
+			return EC_KEY_ptr(::PEM_read_bio_EC_PUBKEY(bio, nullptr, nullptr, const_cast<char*>(pub_pwd.c_str())), ::EC_KEY_free);
+		}
+
+		EC_KEY_ptr create_ec_priv_key(BIO* bio, std::string priv_pwd)
+		{
+			return EC_KEY_ptr(::PEM_read_bio_ECPrivateKey(bio, nullptr, nullptr, const_cast<char*>(priv_pwd.c_str())), ::EC_KEY_free);
+		}
+
 		EVP_MD_CTX_ptr create_evp_ctx()
 		{
+			//If openssl version less than 1.1
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+			return EVP_MD_CTX_ptr(EVP_MD_CTX_create(), EVP_MD_CTX_destroy);
+#else
 			return EVP_MD_CTX_ptr(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+#endif
 		}
 
 		SSL_CTX_ptr create_ssl_ctx()
@@ -119,6 +148,10 @@ namespace cyng
 			return ret == 1;
 		}
 
+		ECDSA_SIG_ptr create_ecdsa_sig()
+		{
+			return ECDSA_SIG_ptr(::ECDSA_SIG_new(), ::ECDSA_SIG_free);
+		}
 
 	}
 }

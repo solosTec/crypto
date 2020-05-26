@@ -32,6 +32,11 @@ namespace cyng
 		RSA_ptr create_rsa_key(BIGNUM*, int bits);
 
 		/**
+		 * Create RSA key from EVP structure
+		 */
+		RSA_ptr create_rsa_key(EVP_PKEY*);
+
+		/**
 		 * provide a X509 structure.
 		 * Represents an x509 certificate in memory.
 		 * A value of 2 stands for version 1.3, a value of 1 encodes
@@ -62,6 +67,22 @@ namespace cyng
 		 * decode the public key for a certificate
 		 */
 		EVP_PKEY_ptr create_evp_pkey(X509* x509);
+
+		/**
+		 * Hold a public and optionally a private key.
+		 * Contains no associated curve.
+		 */
+		EC_KEY_ptr create_ec_key();
+
+		/**
+		 * PEM_read_bio_EC_PUBKEY
+		 */
+		EC_KEY_ptr create_ec_pub_key(BIO*, std::string pwd);
+
+		/**
+		 * PEM_read_bio_ECPrivateKey
+		 */
+		EC_KEY_ptr create_ec_priv_key(BIO*, std::string pwd);
 
 		/**
 		 * create a signing context
@@ -95,7 +116,11 @@ namespace cyng
 		 */
 		bool add_entry_by_txt(X509_NAME*, const char* subject, const char* txt);
 
-
+		/**
+		 * ECDSA_SIG is an opaque structure consisting of two BIGNUMs for the r and s value of an
+		 * ECDSA signature (see X9.62 or FIPS 186-2).
+		 */
+		ECDSA_SIG_ptr create_ecdsa_sig();
 	}
 }
 

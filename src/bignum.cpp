@@ -13,7 +13,11 @@ namespace cyng
 {
 	namespace crypto
 	{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+		std::string to_str(BIGNUM* p)
+#else
 		std::string to_str(BIGNUM const* p)
+#endif
 		{
 			if (p != nullptr) {
 				std::vector<unsigned char> vec;

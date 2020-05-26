@@ -18,7 +18,11 @@ namespace cyng
         /**
          * Convert a BIGNUM to a std::string
          */
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+        std::string to_str(BIGNUM*);
+#else
         std::string to_str(BIGNUM const*);
+#endif
 
         /**
          * Convert an std::string to a BIGNUM
