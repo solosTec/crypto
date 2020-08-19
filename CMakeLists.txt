@@ -119,6 +119,7 @@ source_group("algorithm" FILES ${crypto_algorithm})
 #
 #	define the crypto library
 #
+
 add_library(crypto ${GLOBAL_LIBRARY_TYPE} 
 	include/crypto/crypto.h
 	src/bio.cpp 
@@ -155,7 +156,7 @@ target_link_libraries(crypto
 
 set_target_properties(crypto 
 	PROPERTIES PUBLIC_HEADER 
-		"include/crypto/crypto.h;include/crypto/aes.h;include/crypto/bignum.h;include/crypto/bio.h;include/crypto/crypto.h;include/crypto/digest.h;include/crypto/error.h;include/crypto/factory.h;include/crypto/generate.h;include/crypto/init.h;include/crypto/jwt.h;include/crypto/print.h;include/crypto/read.h;include/crypto/signatures.h;include/crypto/write.h;include/crypto/algorithm/ecdsa.h;include/crypto/algorithm/hmacsha.h;include/crypto/algorithm/none.h;include/crypto/algorithm/pss.h;include/crypto/algorithm/rsa.h;include/crypto/hash/base64.h;include/crypto/hash/md5.h;include/crypto/hash/sha1.h;include/crypto/hash/sha256.h;include/crypto/hash/sha512.h")
+		"${crypto_headers};${crypto_headers_algo};${crypto_headers_hash}")
 
 include(GNUInstallDirs)
 install(TARGETS crypto
@@ -167,6 +168,16 @@ install(TARGETS crypto
         ${CMAKE_INSTALL_INCLUDEDIR}/crypto
 	PUBLIC_HEADER DESTINATION 
 	${CMAKE_INSTALL_INCLUDEDIR}/crypto)
+#	PUBLIC_HEADER_ALGO DESTINATION
+#	${CMAKE_INSTALL_INCLUDEDIR}/crypto/algorithm)
+
+#	- include files
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/crypto" # source directory
+        DESTINATION "include" # target directory
+        FILES_MATCHING # install only matched files
+        PATTERN "*.h" # select header files
+)
 
 include(GNUInstallDirs)
 install(TARGETS crypto
