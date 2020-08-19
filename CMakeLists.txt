@@ -155,9 +155,17 @@ target_link_libraries(crypto
 
 include(GNUInstallDirs)
 install(TARGETS crypto
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/crypto)
+    FILES 
+        include/crypto/crypto.h
+        include/crypto/aes.h
+        include/crypto/bignum.h
+        include/crypto/bio.h
+	LIBRARY DESTINATION 
+        ${CMAKE_INSTALL_LIBDIR}
+	ARCHIVE DESTINATION 
+        ${CMAKE_INSTALL_LIBDIR}
+	INCLUDES DESTINATION 
+        ${CMAKE_INSTALL_INCLUDEDIR}/crypto)
 
 
 #
