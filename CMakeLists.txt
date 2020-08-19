@@ -153,13 +153,23 @@ target_link_libraries(crypto
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY}
 )
 
+set_target_properties(crypto 
+	PROPERTIES PUBLIC_HEADER 
+		"include/crypto/crypto.h;include/crypto/aes.h;include/crypto/bignum.h;include/crypto/bio.h;include/crypto/crypto.h;include/crypto/digest.h;include/crypto/error.h;include/crypto/factory.h;include/crypto/generate.h;include/crypto/init.h;include/crypto/jwt.h;include/crypto/print.h;include/crypto/read.h;include/crypto/signatures.h;include/crypto/write.h;include/crypto/algorithm/ecdsa.h;include/crypto/algorithm/hmacsha.h;include/crypto/algorithm/none.h;include/crypto/algorithm/pss.h;include/crypto/algorithm/rsa.h;include/crypto/hash/base64.h;include/crypto/hash/md5.h;include/crypto/hash/sha1.h;include/crypto/hash/sha256.h;include/crypto/hash/sha512.h")
+
 include(GNUInstallDirs)
 install(TARGETS crypto
-    FILES 
-        include/crypto/crypto.h
-        include/crypto/aes.h
-        include/crypto/bignum.h
-        include/crypto/bio.h
+	LIBRARY DESTINATION 
+        ${CMAKE_INSTALL_LIBDIR}
+	ARCHIVE DESTINATION 
+        ${CMAKE_INSTALL_LIBDIR}
+	INCLUDES DESTINATION 
+        ${CMAKE_INSTALL_INCLUDEDIR}/crypto
+	PUBLIC_HEADER DESTINATION 
+	${CMAKE_INSTALL_INCLUDEDIR}/crypto)
+
+include(GNUInstallDirs)
+install(TARGETS crypto
 	LIBRARY DESTINATION 
         ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION 
