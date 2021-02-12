@@ -28,23 +28,23 @@ namespace cyng
 			return MD5_Update(&ctx_, ptr, length) != 0;
 		}
 		
-		digest_md5::value_type md5::finalize()
+		digest_md5::digest_type md5::finalize()
 		{
-			digest_md5::value_type d;
-			MD5_Final(d.data(), &ctx_);
+			digest_md5::digest_type d;
+			MD5_Final(d.data (), &ctx_);
 			OPENSSL_cleanse(&ctx_, sizeof(ctx_));
 			return d;
 		}
 	}
 	
-	crypto::digest_md5::value_type md5_hash(std::string const& str)
+	crypto::digest_md5::digest_type md5_hash(std::string const& str)
 	{
 		crypto::md5 h;
 		h.update(str);
 		return h.finalize();
 	}
 	
-	crypto::digest_md5::value_type md5_hash(buffer_t const& b)
+	crypto::digest_md5::digest_type md5_hash(buffer_t const& b)
 	{
 		crypto::md5 h;
 		h.update(b.data(), b.size());

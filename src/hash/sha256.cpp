@@ -28,23 +28,23 @@ namespace cyng
 			return SHA256_Update(&ctx_, ptr, length) != 0;
 		}
 
-		digest_sha256::value_type sha256::finalize()
+		digest_sha256::digest_type sha256::finalize()
 		{
-			digest_sha256::value_type d;
+			digest_sha256::digest_type d;
 			SHA256_Final(d.data(), &ctx_);
 			OPENSSL_cleanse(&ctx_, sizeof(ctx_));
 			return d;
 		}
 	}
 
-	crypto::digest_sha256::value_type sha256_hash(std::string const& str)
+	crypto::digest_sha256::digest_type sha256_hash(std::string const& str)
 	{
 		crypto::sha256 h;
 		h.update(str);
 		return h.finalize();
 	}
 
-	crypto::digest_sha256::value_type sha256_hash(buffer_t const& b)
+	crypto::digest_sha256::digest_type sha256_hash(buffer_t const& b)
 	{
 		crypto::sha256 h;
 		h.update(b.data(), b.size());

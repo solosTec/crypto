@@ -15,8 +15,8 @@
 
 #include <string>
 #include <openssl/sha.h>
-#include <cyng/intrinsics/digest.h>
-#include <cyng/intrinsics/buffer.h>
+#include <cyng/obj/intrinsics/digest.hpp>
+#include <cyng/obj/intrinsics/buffer.h>
 
 namespace cyng
 {
@@ -30,7 +30,7 @@ namespace cyng
 			bool update(std::string const&);
 			bool update(const void* ptr, std::size_t length);
 			
-			digest_sha1::value_type finalize();
+			digest_sha1::digest_type finalize();
 			
 		private:
 			SHA_CTX ctx_;
@@ -40,8 +40,8 @@ namespace cyng
 	/**
 	 * Calculate SHA1 hash 
 	 */
-	crypto::digest_sha1::value_type sha1_hash(std::string const&);
-	crypto::digest_sha1::value_type sha1_hash(buffer_t const&);
+	crypto::digest_sha1::digest_type sha1_hash(std::string const&);
+	crypto::digest_sha1::digest_type sha1_hash(buffer_t const&);
 }
 
 #endif	//	CYNG_CRYPTO_SHA1_H

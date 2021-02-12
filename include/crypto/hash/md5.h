@@ -14,8 +14,8 @@
 
 #include <string>
 #include <openssl/md5.h>
-#include <cyng/intrinsics/digest.h>
-#include <cyng/intrinsics/buffer.h>
+#include <cyng/obj/intrinsics/digest.hpp>
+#include <cyng/obj/intrinsics/buffer.h>
 
 namespace cyng
 {
@@ -29,7 +29,7 @@ namespace cyng
 			bool update(std::string const&);
 			bool update(const void* ptr, std::size_t length);
 			
-			digest_md5::value_type finalize();
+			digest_md5::digest_type finalize();
 			
 		private:
 			MD5_CTX ctx_;
@@ -39,8 +39,8 @@ namespace cyng
 	/**
 	 * Calculate MD5 hash 
 	 */
-	crypto::digest_md5::value_type md5_hash(std::string const&);
-	crypto::digest_md5::value_type md5_hash(buffer_t const&);
+	crypto::digest_md5::digest_type md5_hash(std::string const&);
+	crypto::digest_md5::digest_type md5_hash(buffer_t const&);
 }
 
 #endif

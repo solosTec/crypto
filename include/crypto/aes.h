@@ -13,8 +13,8 @@
 #define CYNG_CRYPTO_AES_H
 
 
-#include <cyng/intrinsics/aes_keys.hpp>
-#include <cyng/intrinsics/buffer.h>
+#include <cyng/obj/intrinsics/aes_key.hpp>
+#include <cyng/obj/intrinsics/buffer.h>
 
 #include <openssl/aes.h>
 
