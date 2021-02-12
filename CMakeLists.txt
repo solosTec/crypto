@@ -4,7 +4,7 @@
 # set project name/properties
 #
 project(CRYPT
-	VERSION 0.0.1
+	VERSION 0.8.0
 	LANGUAGES CXX C
 	DESCRIPTION "C++ wrapper for OpenSLL - companion of CYNG library")
 
