@@ -199,17 +199,17 @@ install(TARGETS crypto
 
 
 #
-# manage unit test: CRYPT_BUILD_TEST
+# call CMake with -DCRYPT_UNIT_TEST:BOOL=TRUE to generate unit tests 
 # default is OFF
 #
-if(NOT DEFINED ${PROJECT_NAME}_BUILD_TEST)
-	set(${PROJECT_NAME}_BUILD_TEST OFF CACHE BOOL "build unit test")
+if(NOT DEFINED ${PROJECT_NAME}_UNIT_TEST)
+	set(${PROJECT_NAME}_UNIT_TEST OFF CACHE BOOL "build unit test")
 endif()
 
 #
 #	Boost is only required to build the unit test
 #
-if(${PROJECT_NAME}_BUILD_TEST)
+if(${PROJECT_NAME}_UNIT_TEST)
 
 	find_package(Boost 1.75 REQUIRED COMPONENTS unit_test_framework)
 	if(Boost_FOUND)
