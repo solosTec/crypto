@@ -60,6 +60,8 @@ if(OPENSSL_FOUND)
 
 endif(OPENSSL_FOUND)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+
 #
 #	CYNG library
 #
