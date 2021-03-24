@@ -5,39 +5,36 @@
  *
  */
 
-#ifndef CYNG_CRYPTO_ALGO_PSS_H
-#define CYNG_CRYPTO_ALGO_PSS_H
+#ifndef CYNG_CRYPTO_ALGO_RSA_H
+#define CYNG_CRYPTO_ALGO_RSA_H
 
-#include <crypto/algorithm/none.h>
-#include <crypto/crypto.h>
+#include <smfsec/algorithm/none.h>
+#include <smfsec/crypto.h>
 
 namespace cyng
 {
 	namespace crypto
 	{
-		EVP_PKEY_ptr create_evp_key(const std::string& public_key
+		EVP_PKEY_ptr create_evp_pkey(const std::string& public_key
 			, const std::string& private_key
 			, const std::string& public_key_password
 			, const std::string& private_key_password);
 
 		namespace algorithm
 		{
-			/**
-			 * PSS-RSA family of algorithms
-			 */
-			class pss : public base
+			class rsa : public base
 			{
 			public:
 				/**
-				 * Construct new pss algorithm
-				 * @param public_key RSA public key in PEM format
-				 * @param private_key RSA private key or empty string if not available. If empty, signing will always fail.
-				 * @param public_key_password Password to decrypt public key pem.
-				 * @param privat_key_password Password to decrypt private key pem.
-				 * @param md Pointer to hash function
-				 * @param name Name of the algorithm
-				 */
-				pss(const std::string& public_key
+				  * Construct new rsa algorithm
+				  * @param public_key RSA public key in PEM format
+				  * @param private_key RSA private key or empty string if not available. If empty, signing will always fail.
+				  * @param public_key_password Password to decrypt public key pem.
+				  * @param privat_key_password Password to decrypt private key pem.
+				  * @param md Pointer to hash function
+				  * @param name Name of the algorithm
+				  */
+				rsa(const std::string& public_key
 					, const std::string& private_key
 					, const std::string& public_key_password
 					, const std::string& private_key_password
@@ -47,7 +44,7 @@ namespace cyng
 				/**
 				 * @return empty string
 				 */
-				virtual std::string sign(const std::string&) const override;
+				virtual std::string sign(std::string const&) const override;
 
 				/**
 				 * Check if the given signature is empty. JWT's with "none" algorithm should not contain a signature.
@@ -55,24 +52,23 @@ namespace cyng
 				virtual void verify(const std::string&, const std::string& signature) const override;
 
 			private:
-				std::string generate_hash(std::string const& data) const;
-
-			private:
 				/**
-				 * structure containing keys
+				 * containing converted keys
 				 */
 				EVP_PKEY_ptr pkey_;
 
 				/**
 				 * HMAC hash generator
 				 */
-				const EVP_MD* (*md_)();
+				EVP_MD const* (*md_)();
+
 			};
 
+
 			/**
-			 * PS256 algorithm
+			 * RS256 algorithm
 			 */
-			struct ps256 : public pss {
+			struct rs256 : public rsa {
 				/**
 				 * Construct new instance of algorithm
 				 * @param public_key RSA public key in PEM format
@@ -80,15 +76,15 @@ namespace cyng
 				 * @param public_key_password Password to decrypt public key pem.
 				 * @param privat_key_password Password to decrypt private key pem.
 				 */
-				explicit ps256(const std::string& public_key
+				explicit rs256(const std::string& public_key
 					, const std::string& private_key = ""
 					, const std::string& public_key_password = ""
 					, const std::string& private_key_password = "");
 			};
 			/**
-			 * PS384 algorithm
+			 * RS384 algorithm
 			 */
-			struct ps384 : public pss {
+			struct rs384 : public rsa {
 				/**
 				 * Construct new instance of algorithm
 				 * @param public_key RSA public key in PEM format
@@ -96,15 +92,15 @@ namespace cyng
 				 * @param public_key_password Password to decrypt public key pem.
 				 * @param privat_key_password Password to decrypt private key pem.
 				 */
-				explicit ps384(const std::string& public_key
+				explicit rs384(const std::string& public_key
 					, const std::string& private_key = ""
 					, const std::string& public_key_password = ""
 					, const std::string& private_key_password = "");
 			};
 			/**
-			 * PS512 algorithm
+			 * RS512 algorithm
 			 */
-			struct ps512 : public pss {
+			struct rs512 : public rsa {
 				/**
 				 * Construct new instance of algorithm
 				 * @param public_key RSA public key in PEM format
@@ -112,7 +108,7 @@ namespace cyng
 				 * @param public_key_password Password to decrypt public key pem.
 				 * @param privat_key_password Password to decrypt private key pem.
 				 */
-				explicit ps512(const std::string& public_key
+				explicit rs512(const std::string& public_key
 					, const std::string& private_key = ""
 					, const std::string& public_key_password = ""
 					, const std::string& private_key_password = "");

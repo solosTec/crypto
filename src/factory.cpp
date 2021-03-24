@@ -5,8 +5,8 @@
 *
 */
 
-#include <crypto/factory.h>
-#include <crypto/bio.h>
+#include <smfsec/factory.h>
+#include <smfsec/bio.h>
 #include <assert.h>
 
 namespace cyng 

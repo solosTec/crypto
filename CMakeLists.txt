@@ -4,30 +4,56 @@
 # set project name/properties
 #
 project(CRYPT
-	VERSION 0.0.1
+	VERSION 0.0.2
 	LANGUAGES CXX C
 	DESCRIPTION "C++ wrapper for OpenSLL - companion of CYNG library")
 
 
-message(STATUS "**")  
-message(STATUS "**                                                        *                 ")
-message(STATUS "**                                                       **                 ")
-message(STATUS "**                                                       **                 ")
-message(STATUS "**             ***  ****    **   ****         ****     ********    ****     ")
-message(STATUS "**     ****     **** **** *  **    ***  *    * ***  * ********    * ***  *  ")
-message(STATUS "**    * ***  *   **   ****   **     ****    *   ****     **      *   ****   ")
-message(STATUS "**   *   ****    **          **      **    **    **      **     **    **    ")
-message(STATUS "**  **           **          **      **    **    **      **     **    **    ")
-message(STATUS "**  **           **          **      **    **    **      **     **    **    ")
-message(STATUS "**  **           **          **      **    **    **      **     **    **    ")
-message(STATUS "**  **           **          **      **    **    **      **     **    **    ")
-message(STATUS "**  ***     *    ***          *********    *******       **      ******     ")
-message(STATUS "**   *******      ***           **** ***   ******         **      ****      ")
-message(STATUS "**    *****                           ***  **                               ")
-message(STATUS "**                             *****   *** **                               ")
-message(STATUS "**                           ********  **  **                               ")
-message(STATUS "**                          *      ****     **                              ")
-message(STATUS "**")
+#                                                                                            
+#        *******         *****   **    **        ***** **                                    
+#      *       ***    ******  ***** *****     ******  **** *                                 
+#     *         **   **   *  *  ***** *****  **   *  *  ***                                  
+#     **        *   *    *  *   * **  * **  *    *  *    *                                   
+#      ***              *  *    *     *         *  *            ****                         
+#     ** ***           ** **    *     *        ** **           * **** *    ***       ****    
+#      *** ***         ** **    *     *        ** **          **  ****    * ***     * ***  * 
+#        *** ***       ** **    *     *        ** ******     ****        *   ***   *   ****  
+#          *** ***     ** **    *     *        ** *****        ***      **    *** **         
+#            ** ***    ** **    *     **       ** **             ***    ********  **         
+#             ** **    *  **    *     **       *  **               ***  *******   **         
+#              * *        *     *      **         *           ****  **  **        **         
+#    ***        *     ****      *      **     *****          * **** *   ****    * ***     *  
+#   *  *********     *  *****           **   *  *****           ****     *******   *******   
+#  *     *****      *     **                *    ***                      *****     *****    
+#  *                *                       *                                                
+#   **               **                      **                                              
+#                                                                                            
+#                                                                                            
+#                                                                                            
+																					  
+
+message(STATUS "**  ")                                                                                          
+message(STATUS "**        *******         *****   **    **        ***** **                                    ")
+message(STATUS "**      *       ***    ******  ***** *****     ******  **** *                                 ")
+message(STATUS "**     *         **   **   *  *  ***** *****  **   *  *  ***                                  ")
+message(STATUS "**     **        *   *    *  *   * **  * **  *    *  *    *                                   ")
+message(STATUS "**      ***              *  *    *     *         *  *            ****                         ")
+message(STATUS "**     ** ***           ** **    *     *        ** **           * **** *    ***       ****    ")
+message(STATUS "**      *** ***         ** **    *     *        ** **          **  ****    * ***     * ***  * ")
+message(STATUS "**        *** ***       ** **    *     *        ** ******     ****        *   ***   *   ****  ")
+message(STATUS "**          *** ***     ** **    *     *        ** *****        ***      **    *** **         ")
+message(STATUS "**            ** ***    ** **    *     **       ** **             ***    ********  **         ")
+message(STATUS "**             ** **    *  **    *     **       *  **               ***  *******   **         ")
+message(STATUS "**              * *        *     *      **         *           ****  **  **        **         ")
+message(STATUS "**    ***        *     ****      *      **     *****          * **** *   ****    * ***     *  ")
+message(STATUS "**   *  *********     *  *****           **   *  *****           ****     *******   *******   ")
+message(STATUS "**  *     *****      *     **                *    ***                      *****     *****    ")
+message(STATUS "**  *                *                       *                                                ")
+message(STATUS "**   **               **                      **                                              ")
+message(STATUS "**                                                                                            ")
+#                                                                                            
+#                                                                                            
+
 
 if (CMAKE_COMPILER_IS_GNUCXX)
     set(GLOBAL_LIBRARY_TYPE SHARED)
@@ -74,6 +100,9 @@ if (CYNG_FOUND)
     message(STATUS "** cyng_io                  : ${cyng_io}")
     message(STATUS "** cyng_log                 : ${cyng_log}")
     message(STATUS "** cyng_obj                 : ${cyng_obj}")
+    message(STATUS "** cyng_parse               : ${cyng_parse}")
+    message(STATUS "** cyng_rnd                 : ${cyng_rnd}")
+    message(STATUS "** cyng_sql                 : ${cyng_sql}")
     message(STATUS "** cyng_store               : ${cyng_store}")
     message(STATUS "** cyng_sys                 : ${cyng_sys}")
     message(STATUS "** cyng_task                : ${cyng_task}")
@@ -89,42 +118,42 @@ endif()
 #		PUBLIC_HEADER ${CYNG_INCLUDE})
 
 
-set (crypto_hash
+set (smfsec_hash
 	src/hash/base64.cpp
 	src/hash/md5.cpp
 	src/hash/sha1.cpp
 	src/hash/sha256.cpp
 	src/hash/sha512.cpp
-	include/crypto/hash/base64.h
-	include/crypto/hash/md5.h
-	include/crypto/hash/sha1.h
-	include/crypto/hash/sha256.h
-	include/crypto/hash/sha512.h
+	include/smfsec/hash/base64.h
+	include/smfsec/hash/md5.h
+	include/smfsec/hash/sha1.h
+	include/smfsec/hash/sha256.h
+	include/smfsec/hash/sha512.h
 )
 
-set (crypto_algorithm
+set (smfsec_algorithm
 	src/algorithm/none.cpp
 	src/algorithm/hmacsha.cpp
 	src/algorithm/rsa.cpp
 	src/algorithm/ecdsa.cpp
 	src/algorithm/pss.cpp
-	include/crypto/algorithm/none.h
-	include/crypto/algorithm/hmacsha.h
-	include/crypto/algorithm/rsa.h
-	include/crypto/algorithm/ecdsa.h
-	include/crypto/algorithm/pss.h
+	include/smfsec/algorithm/none.h
+	include/smfsec/algorithm/hmacsha.h
+	include/smfsec/algorithm/rsa.h
+	include/smfsec/algorithm/ecdsa.h
+	include/smfsec/algorithm/pss.h
 )
 
-source_group("hash" FILES ${crypto_hash})
-source_group("algorithm" FILES ${crypto_algorithm})
+source_group("hash" FILES ${smfsec_hash})
+source_group("algorithm" FILES ${smfsec_algorithm})
 
 
 #
 #	define the crypto library
 #
 
-add_library(crypto ${GLOBAL_LIBRARY_TYPE} 
-	include/crypto/crypto.h
+add_library(smfsec ${GLOBAL_LIBRARY_TYPE} 
+	include/smfsec/crypto.h
 	src/bio.cpp 
 	src/factory.cpp 
 	src/init.cpp 
@@ -137,11 +166,11 @@ add_library(crypto ${GLOBAL_LIBRARY_TYPE}
 	src/aes.cpp
 	src/jwt.cpp
 	src/signatures.cpp
-	${crypto_hash}
-	${crypto_algorithm})
-target_compile_features(crypto PRIVATE cxx_std_11)
+	${smfsec_hash}
+	${smfsec_algorithm})
+target_compile_features(smfsec PRIVATE cxx_std_11)
 
-target_include_directories(crypto
+target_include_directories(smfsec
     PUBLIC 
         $<INSTALL_INTERFACE:include>    
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${OPENSSL_INCLUDE_DIR}>"
@@ -150,33 +179,33 @@ target_include_directories(crypto
 		${CYNG_INCLUDE_DIRS}
 )
 
-target_link_libraries(crypto
+target_link_libraries(smfsec
     PUBLIC
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} 
     PRIVATE
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY}
 )
 
-set_target_properties(crypto 
+set_target_properties(smfsec 
 	PROPERTIES PUBLIC_HEADER 
 		"${crypto_headers};${crypto_headers_algo};${crypto_headers_hash}")
 
 include(GNUInstallDirs)
-install(TARGETS crypto
+install(TARGETS smfsec
 	LIBRARY DESTINATION 
         ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION 
         ${CMAKE_INSTALL_LIBDIR}
 	INCLUDES DESTINATION 
-        ${CMAKE_INSTALL_INCLUDEDIR}/crypto
+        ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
 	PUBLIC_HEADER DESTINATION 
-	${CMAKE_INSTALL_INCLUDEDIR}/crypto)
+		${CMAKE_INSTALL_INCLUDEDIR}/smfsec)
 #	PUBLIC_HEADER_ALGO DESTINATION
 #	${CMAKE_INSTALL_INCLUDEDIR}/crypto/algorithm)
 
 #	- include files
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/crypto" # source directory
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/smfsec" # source directory
         DESTINATION "include" # target directory
         FILES_MATCHING # install only matched files
         PATTERN "*.h" # select header files
@@ -186,15 +215,15 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/crypto" # source directory
 #	FixMe: INSTALL TARGETS - target crypto has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION
 #
 include(GNUInstallDirs)
-install(TARGETS crypto
+install(TARGETS smfsec
 	LIBRARY DESTINATION 
         ${CMAKE_INSTALL_LIBDIR}
 	ARCHIVE DESTINATION 
         ${CMAKE_INSTALL_LIBDIR}
 	INCLUDES DESTINATION 
-        ${CMAKE_INSTALL_INCLUDEDIR}/crypto
+        ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
 	PUBLIC_HEADER DESTINATION
-        ${CMAKE_INSTALL_INCLUDEDIR}/crypto
+        ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
 )
 
 
@@ -223,16 +252,17 @@ if(${PROJECT_NAME}_UNIT_TEST)
 		target_include_directories(unit_test
 			PRIVATE
 				$<INSTALL_INTERFACE:include>    
-				${CYNG_INCLUDE}
+				${CYNG_INCLUDE_DIRS}
 				"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include;${Boost_INCLUDE_DIRS};${OPENSSL_INCLUDE_DIR}>"
 				${CMAKE_CURRENT_SOURCE_DIR}/src
 		)
 
 		target_link_libraries(unit_test
 			PRIVATE
-				crypto 
-				"$<$<PLATFORM_ID:Linux>:${CYNG_LIBRARY}/cyng_core.so>"
-				"$<$<PLATFORM_ID:Windows>:${CYNG_LIBRARY}/Debug/cyng_core.lib>"
+				smfsec 
+				${cyng_obj}
+#				"$<$<PLATFORM_ID:Linux>:${CYNG_LIBRARY}/cyng_core.so>"
+#				"$<$<PLATFORM_ID:Windows>:${CYNG_LIBRARY}/Debug/cyng_core.lib>"
 				${OPENSSL_CRYPTO_LIBRARY} 
 				${OPENSSL_SSL_LIBRARY} 
 				${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 

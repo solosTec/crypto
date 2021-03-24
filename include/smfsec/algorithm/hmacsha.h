@@ -8,8 +8,8 @@
 #ifndef CYNG_CRYPTO_ALGO_HMACSHA_H
 #define CYNG_CRYPTO_ALGO_HMACSHA_H
 
-#include <crypto/crypto.h>
-#include <crypto/algorithm/none.h>
+#include <smfsec/crypto.h>
+#include <smfsec/algorithm/none.h>
 
 namespace cyng
 {

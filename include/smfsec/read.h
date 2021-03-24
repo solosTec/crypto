@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_READ_H
 #define CYNG_CRYPTO_READ_H
 
-#include <crypto/crypto.h>
+#include <smfsec/crypto.h>
 #include <string>
 
 namespace cyng

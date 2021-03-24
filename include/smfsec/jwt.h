@@ -11,7 +11,7 @@
 #ifndef CYNG_CRYPTO_JWT_H
 #define CYNG_CRYPTO_JWT_H
 
-#include <crypto/crypto.h>
+#include <smfsec/crypto.h>
 #include <string>
 
 namespace cyng

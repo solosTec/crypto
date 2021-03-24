@@ -5,12 +5,12 @@
 *
 */
 
-#include <crypto/algorithm/ecdsa.h>
-#include <crypto/factory.h>
-#include <crypto/bio.h>
-#include <crypto/jwt.h>
-#include <crypto/signatures.h>
-#include <crypto/bignum.h>
+#include <smfsec/algorithm/ecdsa.h>
+#include <smfsec/factory.h>
+#include <smfsec/bio.h>
+#include <smfsec/jwt.h>
+#include <smfsec/signatures.h>
+#include <smfsec/bignum.h>
 #include <stdexcept>
 
 namespace cyng 

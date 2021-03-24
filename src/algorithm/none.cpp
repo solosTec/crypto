@@ -5,7 +5,7 @@
 *
 */
 
-#include <crypto/algorithm/none.h>
+#include <smfsec/algorithm/none.h>
 
 namespace cyng 
 {

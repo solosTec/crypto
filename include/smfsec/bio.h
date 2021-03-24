@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_BIO_H
 #define CYNG_CRYPTO_BIO_H
 
-#include <crypto/crypto.h>
+#include <smfsec/crypto.h>
 #include <string>
 
 namespace cyng

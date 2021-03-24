@@ -5,7 +5,7 @@
 *
 */
 
-#include <crypto/bio.h>
+#include <smfsec/bio.h>
 
 namespace cyng 
 {

@@ -9,7 +9,7 @@
 #include "test-crypto-003.h"
 #include <iostream>
 #include <boost/test/unit_test.hpp>
-#include <crypto/generate.h>
+#include <smfsec/generate.h>
 #include <openssl/err.h>
 
 namespace cyng 

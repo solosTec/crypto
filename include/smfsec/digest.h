@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_DIGEST_H
 #define CYNG_CRYPTO_DIGEST_H
 
-#include <cyng/crypto.h>
+#include <smfsec/crypto.h>
 #include <string>
 #include <vector>
 

@@ -5,8 +5,8 @@
 *
 */
 
-#include <crypto/signatures.h>
-#include <crypto/factory.h>
+#include <smfsec/signatures.h>
+#include <smfsec/factory.h>
 #include <cassert>
 
 namespace cyng 

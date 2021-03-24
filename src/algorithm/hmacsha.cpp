@@ -5,7 +5,7 @@
 *
 */
 
-#include <crypto/algorithm/hmacsha.h>
+#include <smfsec/algorithm/hmacsha.h>
 #include <algorithm>
 #include <vector>
 

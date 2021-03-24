@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_GENERATE_H
 #define CYNG_CRYPTO_GENERATE_H
 
-#include <crypto/crypto.h>
+#include <smfsec/crypto.h>
 
 namespace cyng
 {

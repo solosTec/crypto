@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_ERROR_H
 #define CYNG_CRYPTO_ERROR_H
 
-#include <crypto/crypto.h>
+#include <smfsec/crypto.h>
 #include <string>
 #include <openssl/err.h>
 

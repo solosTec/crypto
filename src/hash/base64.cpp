@@ -5,9 +5,9 @@
  * 
  */ 
 
-#include <crypto/hash/base64.h>
-#include <crypto/bio.h>
-#include <crypto/crypto.h>
+#include <smfsec/hash/base64.h>
+#include <smfsec/bio.h>
+#include <smfsec/crypto.h>
 #include <iostream>
 #include <sstream>
 #include <vector>

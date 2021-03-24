@@ -9,7 +9,7 @@
 #include "test-crypto-006.h"
 #include <iostream>
 #include <boost/test/unit_test.hpp>
-#include <crypto/jwt.h>
+#include <smfsec/jwt.h>
 #include <openssl/err.h>
 
 namespace cyng 

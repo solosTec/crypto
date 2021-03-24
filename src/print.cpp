@@ -5,10 +5,10 @@
 *
 */
 
-#include <crypto/print.h>
-#include <crypto/factory.h>
-#include <crypto/bio.h>
-#include <crypto/read.h>
+#include <smfsec/print.h>
+#include <smfsec/factory.h>
+#include <smfsec/bio.h>
+#include <smfsec/read.h>
 
 namespace cyng 
 {

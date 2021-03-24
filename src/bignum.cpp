@@ -5,7 +5,7 @@
 *
 */
 
-#include <crypto/bignum.h>
+#include <smfsec/bignum.h>
 #include <openssl/bn.h>
 #include <vector>
 

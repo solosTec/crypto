@@ -5,7 +5,7 @@
  * 
  */ 
 
-#include <crypto/hash/sha256.h>
+#include <smfsec/hash/sha256.h>
 #include <openssl/crypto.h>	//	OPENSSL_cleanse
 
 namespace cyng

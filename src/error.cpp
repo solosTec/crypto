@@ -5,7 +5,7 @@
 *
 */
 
-#include <crypto/error.h>
+#include <smfsec/error.h>
 
 namespace cyng 
 {

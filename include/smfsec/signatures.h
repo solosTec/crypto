@@ -8,7 +8,7 @@
 #ifndef CYNG_CRYPTO_EVP_H
 #define CYNG_CRYPTO_EVP_H
 
-#include <crypto/crypto.h>
+#include <smfsec/crypto.h>
 #include <vector>
 #include <string>
 

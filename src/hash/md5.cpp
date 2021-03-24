@@ -5,7 +5,7 @@
  * 
  */ 
 
-#include <crypto/hash/md5.h>
+#include <smfsec/hash/md5.h>
 #include <openssl/crypto.h>	//	OPENSSL_cleanse
 
 namespace cyng

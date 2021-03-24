@@ -7,7 +7,7 @@
 
 #include <cyng/crypto/util/digest.h>
 #include <cyng/crypto/util/factory.h>
-#include <cyng/crypto/bio.h>
+#include <cyng/smfsec/bio.h>
 #include <boost/predef.h>
 #include <iostream>
 #include <stdio.h>

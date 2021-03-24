@@ -5,10 +5,10 @@
 *
 */
 
-#include <crypto/algorithm/pss.h>
-#include <crypto/factory.h>
-#include <crypto/jwt.h>
-#include <crypto/signatures.h>
+#include <smfsec/algorithm/pss.h>
+#include <smfsec/factory.h>
+#include <smfsec/jwt.h>
+#include <smfsec/signatures.h>
 
 namespace cyng 
 {
