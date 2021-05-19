@@ -109,6 +109,8 @@ if (CYNG_FOUND)
     message(STATUS "** cyng_vm                  : ${cyng_vm}")
 else()
     message(FATAL_ERROR "** cyng library not found")
+	set(CYNG_INCLUDE_DIR_SRC "not-found" CACHE PATH "specify path to CYNG include directory")
+	set(CYNG_INCLUDE_DIR_BUILD "not-found" CACHE PATH "specify path to CYNG build directory")
 endif()
 
 #add_library(cyng_core SHARED IMPORTED)
