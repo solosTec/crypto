@@ -40,11 +40,13 @@ if(NOT CYNG_FOUND)
     find_path(CYNG_INCLUDE_DIR_SRC
         NAMES 
             cyng/version.hpp
-            cyng/obj/object.h
+			cyng/meta.hpp
+            cyng.h.in
         PATH_SUFFIXES
             cyng
         HINTS
             "${PROJECT_SOURCE_DIR}/../cyng/include"
+			"${PROJECT_SOURCE_DIR}/cyng-*/include"
         PATHS
             /usr/include/
             /usr/local/include/
@@ -60,11 +62,19 @@ if(NOT CYNG_FOUND)
    find_path(CYNG_INCLUDE_DIR_BUILD
         NAMES 
             cyng.h
-         HINTS
+			cross.cmake
+		PATH_SUFFIXES
+			cyng
+			cyng-0.9
+			build
+			v5te
+			build/v5te
+        HINTS
 			"${PROJECT_SOURCE_DIR}/../cyng/build/include"
             "${PROJECT_SOURCE_DIR}/../cyng/v5te/include"
             "${PROJECT_SOURCE_DIR}/../cyng/build/x64/include"
             "${PROJECT_SOURCE_DIR}/../cyng/build/v5te/include"
+			"${PROJECT_SOURCE_DIR}/cyng*/build/v5te/include"
         PATHS
             /usr/include/
             /usr/local/include/
@@ -114,6 +124,7 @@ if(NOT CYNG_FOUND)
 				${__CYNG_BUILD}
 			HINTS
 				"${CYNG_INCLUDE_DIR_BUILD}/.."
+				"${CYNG_INCLUDE_DIR_BUILD}/"
 			PATHS
 				/usr/lib/
 				/usr/local/lib

@@ -1,4 +1,6 @@
 ﻿cmake_minimum_required (VERSION 3.10)
+cmake_policy(SET CMP0074 NEW)
+
 
 #
 # set project name/properties
@@ -74,7 +76,7 @@ include(GNUInstallDirs)
 #
 #	OpenSSL
 #
-find_package(OpenSSL 1.1.0 REQUIRED)
+find_package(OpenSSL 1.1.1 REQUIRED)
 if(OPENSSL_FOUND)
 	message(STATUS "** openSSL Include       : ${OPENSSL_INCLUDE_DIR}")
 	message(STATUS "** openSSL crypto library: ${OPENSSL_CRYPTO_LIBRARY}")
