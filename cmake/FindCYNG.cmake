@@ -39,6 +39,7 @@ else(PC_CYNG_FOUND)
 	#	cyng header files, which are included in the form cyng/xx.h
 	#
 	file(GLOB CYNG_SEARCH_PATH "${CMAKE_PREFIX_PATH}/cyng*" "${PROJECT_SOURCE_DIR}/../cyng*" "${PROJECT_SOURCE_DIR}/../../sysroot-target")
+	message(STATUS "** CYNG_SEARCH_PATH: ${CYNG_SEARCH_PATH}")
     find_path(CYNG_INCLUDE_DIR_SRC
         NAMES 
             cyng/version.hpp
@@ -77,7 +78,7 @@ else(PC_CYNG_FOUND)
     set(REQUESTED_LIBS "cyng_db;cyng_io;cyng_log;cyng_obj;cyng_parse;cyng_rnd;cyng_sql;cyng_store;cyng_sys;cyng_task;cyng_vm;cyng_net;cyng_sqlite3")
     
 	if(WIN32)
-        list(APPEND CYNG_LIBS "cyng_scm")
+        list(APPEND REQUESTED_LIBS "cyng_scm")
     endif(WIN32)
 
 	foreach(__LIB ${REQUESTED_LIBS})
