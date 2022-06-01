@@ -5,7 +5,7 @@ cmake_policy(SET CMP0074 NEW)
 #
 # set project name/properties
 #
-project(CRYPT
+project(crypt
 	VERSION 0.0.2
 	LANGUAGES CXX C
 	DESCRIPTION "C++ wrapper for OpenSLL - companion of CYNG library")
@@ -56,17 +56,39 @@ message(STATUS "**                                                              
 #                                                                                            
 #                                                                                            
 
+# Only do these if this is the main project, and not if it is included through add_subdirectory
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
-if (CMAKE_COMPILER_IS_GNUCXX)
-    set(GLOBAL_LIBRARY_TYPE SHARED)
-elseif(MSVC)
-    set(GLOBAL_LIBRARY_TYPE STATIC)
-endif(CMAKE_COMPILER_IS_GNUCXX)
+	#
+	# guard against in-source builds and bad build-type strings
+	#
+	include(cmake/safeguards.cmake)
 
-#
-# guard against in-source builds and bad build-type strings
-#
-include(cmake/safeguards.cmake)
+    message(STATUS "** CMake              : ${CMAKE_VERSION}")
+	message(STATUS "** Compiler           : ${CMAKE_CXX_COMPILER_ID} v${CMAKE_CXX_COMPILER_VERSION}")
+
+    if (NOT WIN32) 
+        # Alpine Linux v3.16/alpine
+        cmake_host_system_information(RESULT CRYPTO_HOST_PRETTY_NAME QUERY DISTRIB_PRETTY_NAME)
+        cmake_host_system_information(RESULT CRYPTO_HOST_ID_NAME QUERY DISTRIB_ID)
+        message(STATUS "** Host System        : ${CRYPTO_HOST_PRETTY_NAME}/${CRYPTO_HOST_ID_NAME} - (${CMAKE_SYSTEM_NAME})")
+    else()
+        message(STATUS "** Host System        : ${CMAKE_SYSTEM_NAME}")
+    endif()
+
+    # Let's ensure -std=c++xx instead of -std=g++xx
+    set(CMAKE_CXX_EXTENSIONS OFF)
+
+	if (CMAKE_COMPILER_IS_GNUCXX)
+		set(GLOBAL_LIBRARY_TYPE SHARED)
+	elseif(MSVC)
+		set(GLOBAL_LIBRARY_TYPE STATIC)
+	    add_compile_definitions(_WIN32_WINNT=0x0A00 _SCL_SECURE_NO_WARNINGS WIN32_LEAN_AND_MEAN)
+        add_compile_options(/bigobj)
+        add_compile_options(/MP)
+	endif(CMAKE_COMPILER_IS_GNUCXX)
+
+endif()
 
 #
 # place binaries and libraries according to GNU standards
@@ -305,7 +327,7 @@ else()
 
     set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 
-    if (${CYNG_HOST_ID_NAME} STREQUAL "openSUSE")
+    if (${CRYPTO_HOST_ID_NAME} STREQUAL "openSUSE")
         set(CPACK_GENERATOR "RPM")
     else()    
 
