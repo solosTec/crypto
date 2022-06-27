@@ -216,18 +216,13 @@ set_target_properties(smfsec
 	PROPERTIES PUBLIC_HEADER 
 		"${crypto_headers};${crypto_headers_algo};${crypto_headers_hash}")
 
+#
+# install
+#
+
+if(UNIX)
 include(GNUInstallDirs)
-install(TARGETS smfsec
-	LIBRARY DESTINATION 
-        ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION 
-        ${CMAKE_INSTALL_LIBDIR}
-	INCLUDES DESTINATION 
-        ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
-	PUBLIC_HEADER DESTINATION 
-		${CMAKE_INSTALL_INCLUDEDIR}/smfsec)
-#	PUBLIC_HEADER_ALGO DESTINATION
-#	${CMAKE_INSTALL_INCLUDEDIR}/crypto/algorithm)
+endif()
 
 #	- include files
 
@@ -242,16 +237,28 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/smfsec" # source directory
 #
 include(GNUInstallDirs)
 install(TARGETS smfsec
-	LIBRARY DESTINATION 
-        ${CMAKE_INSTALL_LIBDIR}
-	ARCHIVE DESTINATION 
-        ${CMAKE_INSTALL_LIBDIR}
-	INCLUDES DESTINATION 
-        ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
-	PUBLIC_HEADER DESTINATION
-        ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
+	EXPORT "${CMAKE_PROJECT_NAME}Targets"
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
+	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/smfsec
 )
 
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}/ConfigVersion.cmake"
+    VERSION 
+        "${CMAKE_PROJECT_VERSION}"
+    COMPATIBILITY 
+        AnyNewerVersion
+)
+
+install(EXPORT "${CMAKE_PROJECT_NAME}Targets"
+    FILE ${CMAKE_PROJECT_NAME}Targets.cmake
+    NAMESPACE SMFSEC::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${CMAKE_PROJECT_NAME}
+)
 
 #
 # call CMake with -DCRYPT_UNIT_TEST:BOOL=TRUE to generate unit tests 
