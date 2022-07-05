@@ -13,6 +13,8 @@
 #     cyng::cyng
 #
 
+message(STATUS "** CYNG Tree Name     : [${SMFSEC_BUILD_TREE_STEM}]")
+
 #
 #	try PkgConfig
 #
@@ -60,11 +62,8 @@ else(PC_CYNG_FOUND)
         NAMES 
             cyng.h
         PATH_SUFFIXES
-			include
-			build/v5te/include
-			build/x64/include
-			build/include
-			v5te/include
+			"include"
+			"${SMFSEC_BUILD_TREE_STEM}/include"
         PATHS
 			${CYNG_SEARCH_PATH}
         DOC 
@@ -86,15 +85,12 @@ else(PC_CYNG_FOUND)
             PATHS
                 ${CYNG_SEARCH_PATH}
             PATH_SUFFIXES
-				lib
-                usr/lib/
-				build/v5te
-				build/x64
-				build
-				v5te
-				src/net
-				src/net/Debug
-				src/net/Release
+				"lib"
+                "usr/lib/"
+				"${SMFSEC_BUILD_TREE_STEM}"
+				"src/net"
+				"src/net/Debug"
+				"src/net/Release"
 			DOC 
 				"CYNG libraries"
 		)

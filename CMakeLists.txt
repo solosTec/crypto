@@ -67,6 +67,11 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     message(STATUS "** CMake              : ${CMAKE_VERSION}")
 	message(STATUS "** Compiler           : ${CMAKE_CXX_COMPILER_ID} v${CMAKE_CXX_COMPILER_VERSION}")
 
+	# root name of build tree
+   	set(path_build_tree ${CMAKE_BINARY_DIR})
+   	cmake_path(GET path_build_tree STEM SMFSEC_BUILD_TREE_STEM)
+   	message(STATUS "** Build Tree Path    : ${CMAKE_BINARY_DIR}")
+
     if (NOT WIN32) 
         # Alpine Linux v3.16/alpine
         cmake_host_system_information(RESULT CRYPTO_HOST_PRETTY_NAME QUERY DISTRIB_PRETTY_NAME)
