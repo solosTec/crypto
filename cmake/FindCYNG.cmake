@@ -64,6 +64,7 @@ else(PC_CYNG_FOUND)
         PATH_SUFFIXES
 			"include"
 			"${SMFSEC_BUILD_TREE_STEM}/include"
+			"build/include"
         PATHS
 			${CYNG_SEARCH_PATH}
         DOC 
@@ -88,6 +89,8 @@ else(PC_CYNG_FOUND)
 				"lib"
                 "usr/lib/"
 				"${SMFSEC_BUILD_TREE_STEM}"
+				"build"
+				"build/src/net"
 				"src/net"
 				"src/net/Debug"
 				"src/net/Release"
