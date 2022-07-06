@@ -257,7 +257,6 @@ write_basic_package_version_file(
         "${CMAKE_PROJECT_VERSION}"
     COMPATIBILITY 
         AnyNewerVersion
-	COPYONLY
 )
 
 install(EXPORT "${CMAKE_PROJECT_NAME}Targets"
