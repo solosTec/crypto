@@ -257,12 +257,14 @@ write_basic_package_version_file(
         "${CMAKE_PROJECT_VERSION}"
     COMPATIBILITY 
         AnyNewerVersion
+	COPYONLY
 )
 
 install(EXPORT "${CMAKE_PROJECT_NAME}Targets"
     FILE ${CMAKE_PROJECT_NAME}Targets.cmake
     NAMESPACE SMFSEC::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${CMAKE_PROJECT_NAME}
+	COMPONENT Devel
 )
 
 #
@@ -323,7 +325,6 @@ set(CPACK_PACKAGE_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 set(CPACK_PACKAGE_CONTACT "info@solostec.ch")
 set(CPACK_PACKAGE_VENDOR "solosTec")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PROJECT_NAME}-${CPACK_PROJECT_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
-set(CPACK_RPM_PACKAGE_DESCRIPTION "SMFSec library")
 set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE)
 
 if(WIN32)
@@ -341,7 +342,8 @@ else()
 
     if (${CRYPTO_HOST_ID_NAME} STREQUAL "openSUSE")
         set(CPACK_GENERATOR "RPM")
-    else()    
+		set(CPACK_RPM_PACKAGE_DESCRIPTION "SMFSec library")
+	else()    
 
         #   architecture: amd64
         message(STATUS "** architecture                 : ${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}")  
