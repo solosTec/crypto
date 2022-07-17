@@ -13,7 +13,7 @@
 #     cyng::cyng
 #
 
-message(STATUS "** CYNG Tree Name     : [${SMFSEC_BUILD_TREE_STEM}]")
+message(STATUS "** CYNG build tree       : [${SMFSEC_BUILD_TREE_STEM}]")
 
 #
 #	try PkgConfig
@@ -44,8 +44,8 @@ else(PC_CYNG_FOUND)
 	message(STATUS "** CYNG_SEARCH_PATH: ${CYNG_SEARCH_PATH}")
     find_path(CYNG_INCLUDE_DIR_SRC
         NAMES 
-            cyng/version.hpp
 			cyng/meta.hpp
+            cyng/obj/object.h
         PATH_SUFFIXES
             include
         PATHS
@@ -75,36 +75,51 @@ else(PC_CYNG_FOUND)
 	#
 	#	search cyng libraries
 	#
-    set(REQUESTED_LIBS "cyng_db;cyng_io;cyng_log;cyng_obj;cyng_parse;cyng_rnd;cyng_sql;cyng_store;cyng_sys;cyng_task;cyng_vm;cyng_net;cyng_sqlite3")
+    set(REQUESTED_LIBS "db;io;log;obj;parse;rnd;sql;store;sys;task;vm;net;sqlite3")
     
 	if(WIN32)
-        list(APPEND REQUESTED_LIBS "cyng_scm")
+        list(APPEND REQUESTED_LIBS "scm")
     endif(WIN32)
 
 	foreach(__LIB ${REQUESTED_LIBS})
-		find_library("${__LIB}" ${__LIB}
-            PATHS
+
+		message(STATUS "** find         : cyng_${__LIB}")
+
+		find_library("__CYNG_${__LIB}"
+			NAME
+				"cyng_${__LIB}"
+			PATHS
                 ${CYNG_SEARCH_PATH}
             PATH_SUFFIXES
 				"lib"
                 "usr/lib/"
 				"${SMFSEC_BUILD_TREE_STEM}"
-				"build"
-				"build/src/net"
-				"src/net"
-				"src/net/Debug"
-				"src/net/Release"
+				"${SMFSEC_BUILD_TREE_STEM}/src/${__LIB}"
+                "${SMFSEC_BUILD_TREE_STEM}/src/${__LIB}/Debug"
+                "${SMFSEC_BUILD_TREE_STEM}/src/${__LIB}/Release"
+				"${SMFSEC_BUILD_TREE_STEM}/Debug"
+				"${SMFSEC_BUILD_TREE_STEM}/Release"
+				"build/Debug"
+				"build/Release"
 			DOC 
 				"CYNG libraries"
 		)
 
+		add_library("cyng::${__LIB}" INTERFACE IMPORTED)
+		set_target_properties("cyng::${__LIB}" 
+				PROPERTIES
+					INTERFACE_INCLUDE_DIRECTORIES 
+						"${CYNG_INCLUDE_DIRS}"
+					INTERFACE_LINK_LIBRARIES 
+						"${__CYNG_${__LIB}}"
+			)
+
 		# append the found library to the list of all libraries
-		list(APPEND CYNG_LIBRARIES ${${__LIB}})
+		list(APPEND CYNG_LIBRARIES ${__CYNG_${__LIB}})
 
 		# this creates a variable with the name of the searched library, so that it can be included more easily
-		unset(__LIB_UPPERCASE_NAME)
-		string(TOUPPER ${__LIB} __LIB_UPPERCASE_NAME)
-		set(${__LIB_UPPERCASE_NAME}_LIBRARY ${${__LIB}})
+		string(TOUPPER "cyng_${__LIB}" __LIB_UPPERCASE_NAME)
+		set(${__LIB_UPPERCASE_NAME} ${__CYNG_${__LIB}})	
 	endforeach()
 endif(PC_CYNG_FOUND)
     
