@@ -75,8 +75,8 @@ for archive in *.bz2; do
 		mycmd="sed -i 's/^${md5var}[[:space:]]*:=.*/${md5var} := ${md5}/' ${makefile}"
        	bash -c "${mycmd}"
        	
-		echo "Setting CYNG := cyng_${version}_src"
-		mycmd="sed -i 's/^CYNG[[:space:]]*:=.*/CYNG := cyng_${version}_src/' ${makefile}"
+		echo "Setting CRYPTO := crypto_${version}_src"
+		mycmd="sed -i 's/^CRYPTO[[:space:]]*:=.*/CRYPTO := crypto_${version}_src/' ${makefile}"
 		bash -c "${mycmd}"
 		
 		echo "Setting ${suffixvar} := tar.bz2"
