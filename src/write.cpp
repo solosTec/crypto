@@ -15,6 +15,8 @@ namespace cyng
 {
 	namespace crypto
 	{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 		bool write_private_key(RSA* rsa, const char* file_name)
 		{
 			auto bio_privp = create_bio_file(file_name, "w+");
@@ -30,6 +32,7 @@ namespace cyng
 				NULL);	//	data to pass to the callback
 			return ret == 1;
 		}
+#endif
 
 		bool write_private_key(EVP_PKEY* pkey, const char* file_name)
 		{
@@ -55,6 +58,7 @@ namespace cyng
 			return ret == 1;
 		}
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 		bool write_public_key(RSA* rsa, const char* file_name)
 		{
 			auto biop = create_bio_file(file_name, "w+");
@@ -63,5 +67,6 @@ namespace cyng
 			if (ret != OK)	return false;
 			return true;
 		}
+#endif
 	}
 }

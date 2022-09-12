@@ -31,6 +31,7 @@ namespace cyng
 			return X509_REQ_ptr(x509_reqp, X509_REQ_free);
 		}
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 		RSA_ptr load_private_key(const char* filename)
 		{
 			RSA* rsa = nullptr;
@@ -42,9 +43,12 @@ namespace cyng
 
 			return RSA_ptr(rsa, RSA_free);
 		}
+#endif
 
 		EVP_PKEY_ptr load_CA_private_key(const char* filename)
 		{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 			auto rsap = load_private_key(filename);
 			auto evp_pkeyp = create_evp_pkey();
 
@@ -53,6 +57,9 @@ namespace cyng
 			//
 			EVP_PKEY_assign_RSA(evp_pkeyp.get(), rsap.release());
 			return evp_pkeyp;
+#else
+			return std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>(nullptr, [](EVP_PKEY*) {});
+#endif
 		}
 
 		EVP_PKEY_ptr read_pub_key(BIO* p, std::string passphrase)

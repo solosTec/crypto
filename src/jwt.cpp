@@ -17,6 +17,7 @@ namespace cyng
 	{
 		std::string extract_pubkey_from_cert(const std::string& certstr, const std::string& pw)
 		{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 			auto keybio = create_bio_s_mem(false);
 			auto cert = create_x509(certstr, pw);
 			if (!cert)	throw "Error loading cert into memory";
@@ -24,6 +25,9 @@ namespace cyng
 			if (!key) throw "Error getting public key from certificate";
 			if (!PEM_write_bio_PUBKEY(keybio.get(), key.get())) throw "Error writing public key data in PEM format";
 			return to_str(keybio.get());
+#else
+			return "";
+#endif
 		}
 
 		EVP_PKEY_ptr load_public_key_from_string(const std::string& key, const std::string& passphrase)

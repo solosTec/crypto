@@ -141,6 +141,8 @@ namespace cyng
 
 		}
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 		ECDSA_SIG_ptr do_sign(std::string const& hash, EC_KEY* eckey)
 		{
 			std::vector<unsigned char> const vec(hash.begin(), hash.end());
@@ -151,6 +153,6 @@ namespace cyng
 		{
 			return ECDSA_SIG_ptr(::ECDSA_do_sign(hash.data(), static_cast<int>(hash.size()), eckey), ::ECDSA_SIG_free);
 		}
-
+#endif
 	}
 }

@@ -19,12 +19,15 @@ namespace cyng
 		{
 			SSL_library_init();
 			SSL_load_error_strings();
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 			ERR_load_BIO_strings();
+#endif
 			OpenSSL_add_all_algorithms();
 		}
 		ssl::~ssl()
 		{
-#if OPENSSL_API_COMPAT < 0x10000000L
+#if (OPENSSL_API_COMPAT < 0x10000000L) && (OPENSSL_VERSION_NUMBER < 0x10100000L)
+
 			ERR_remove_state(0);
 #endif
 			ENGINE_cleanup();

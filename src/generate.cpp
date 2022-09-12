@@ -33,6 +33,8 @@ namespace cyng
 			auto bnp = create_bignum_rsa_f4();
 			if (!bnp) return false;
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 			auto rsap = create_rsa_key(bnp.get(), bits);
 			if (!rsap) return false;
 
@@ -71,10 +73,15 @@ namespace cyng
 			if (ret != OK) return false;
 
 			return true;
+#else
+			return false;
+#endif
 		}
 
 		EVP_PKEY_ptr generate_private_key(int bits)
 		{
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 			//
 			//	To store private key algorithm-independent in memory.
 			//
@@ -98,6 +105,9 @@ namespace cyng
 			//
 			EVP_PKEY_assign_RSA(evp_pkeyp.get(), rsap.release());
 			return evp_pkeyp;
+#else
+			return std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>(nullptr, [](EVP_PKEY*) {});
+#endif
 		}
 
 		bool generate_priv_pub_key_pair(const char* pub_pem
@@ -107,6 +117,8 @@ namespace cyng
 			// 1. generate rsa key with exponent RSA_F4
 			auto bnp = create_bignum_rsa_f4();
 			if (!bnp) return false;
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 			auto rsap = create_rsa();
 			if (!rsap) return false;
@@ -120,6 +132,10 @@ namespace cyng
 
 			// 3. save private key
 			return write_private_key(rsap.get(), priv_pem);
+#else
+			return false;
+#endif
+
 		}
 
 		bool generate_ca_cert_write(const char* priv_key_file
@@ -136,6 +152,8 @@ namespace cyng
 			//	Create a EVP_PKEY struct with a private key
 			//
 			auto evp_pkeyp = generate_private_key(2048);
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 			//
 			//	create a X509 structure to represent 
@@ -187,6 +205,9 @@ namespace cyng
 			write_certificate(x509p.get(), cert_file);
 
 			return true;
+#else
+			return false;
+#endif
 		}
 
 		bool generate_ca_cert_read(const char* priv_key_file
@@ -205,6 +226,8 @@ namespace cyng
 			//auto evp_pkeyp = generate_private_key(2048);
 			auto evp_pkeyp = load_CA_private_key(priv_key_file);
 			if (!evp_pkeyp)	return false;
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 			//
 			//	create a X509 structure to represent 
@@ -256,6 +279,9 @@ namespace cyng
 			write_certificate(x509p.get(), cert_file);
 
 			return true;
+#else
+			return false;
+#endif
 		}
 
 		bool sign_x509(X509* cert, EVP_PKEY* pkey, const EVP_MD* md)
@@ -288,6 +314,8 @@ namespace cyng
 
 			auto x509_reqp = load_x509_request(x509ReqFile);
 			if (!x509_reqp)	return false;
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 			// set version to X509 v3 certificate
 			auto certp = create_x509(2);
@@ -330,6 +358,9 @@ namespace cyng
 			}
 
 			return true;
+#else
+			return false;
+#endif
 		}
 
 

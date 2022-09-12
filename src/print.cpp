@@ -45,12 +45,15 @@ namespace cyng
 			return r == 1;
 		}
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 		bool print_stdout_RSA(RSA* rsa)
 		{
 			if (rsa == nullptr)	return false;
 			auto const r = RSA_print_fp(stdout, rsa, 0);
 			return r == 1;
 		}
+#endif
 
 		bool dump_evp(const char* filename)
 		{

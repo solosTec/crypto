@@ -12,6 +12,8 @@
   #pragma once
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
+#include <openssl/opensslv.h>
+
 #include <openssl/bn.h>	//	bignum
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
@@ -21,6 +23,7 @@
 #include <openssl/evp.h>
 #include <openssl/asn1.h>
 #include <openssl/asn1t.h>
+
 #include <memory>
 
 namespace cyng 

@@ -19,8 +19,10 @@ namespace cyng
 		 * create a bignum structure
 		 */
 		BN_ptr create_bignum();
+		BN_ptr create_bignum_from_hex(std::string);
 		BN_ptr create_bignum_rsa_f4();
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 		/**
 		 * create a RSA structure
 		 */
@@ -83,6 +85,8 @@ namespace cyng
 		 * PEM_read_bio_ECPrivateKey
 		 */
 		EC_KEY_ptr create_ec_priv_key(BIO*, std::string pwd);
+
+#endif
 
 		/**
 		 * create a signing context

@@ -100,9 +100,11 @@ namespace cyng
 		 * Similar to ECDSA_sign() except the signature is returned 
 		 * as a newly allocated ECDSA_SIG structure (or NULL on error).
 		 */
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 		ECDSA_SIG_ptr do_sign(std::string const& data, EC_KEY* eckey);
 		ECDSA_SIG_ptr do_sign(std::vector<unsigned char> const& data, EC_KEY* eckey);
-
+#endif
 	}
 }
 

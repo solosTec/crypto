@@ -18,6 +18,13 @@ namespace cyng
 			return BN_ptr(BN_new(), BN_free);
 		}
 
+		BN_ptr create_bignum_from_hex(std::string s) {
+			auto p = create_bignum();
+			BIGNUM * bn = p.get();
+			auto const r = BN_hex2bn(&bn, s.c_str());
+			return p;
+		}
+
 		BN_ptr create_bignum_rsa_f4()
 		{
 			auto p = create_bignum();
@@ -25,6 +32,8 @@ namespace cyng
 			assert(ret == 1);
 			return p;
 		}
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 		RSA_ptr create_rsa()
 		{
@@ -95,6 +104,8 @@ namespace cyng
 		{
 			return EC_KEY_ptr(::PEM_read_bio_ECPrivateKey(bio, nullptr, nullptr, const_cast<char*>(priv_pwd.c_str())), ::EC_KEY_free);
 		}
+
+#endif
 
 		EVP_MD_CTX_ptr create_evp_ctx()
 		{

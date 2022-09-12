@@ -22,8 +22,11 @@ namespace cyng
 
 		/**
 		 * Read a private key and create an RSA pointer.
+		 * Raw RSA* pointer not longer supported
 		 */
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 		RSA_ptr load_private_key(const char* filename);
+#endif
 
 		/**
 		 * load (CA) private key (without password)

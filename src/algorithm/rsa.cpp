@@ -25,7 +25,11 @@ namespace cyng
 			else if (!public_key.empty()) {
 				return load_public_key_from_string(public_key, public_key_password);
 			}
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 			return create_evp_pkey();
+#else 
+			return std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>(nullptr, [](EVP_PKEY*) {});
+#endif
 		}
 
 		namespace algorithm

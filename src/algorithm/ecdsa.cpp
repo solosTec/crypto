@@ -40,6 +40,8 @@ namespace cyng
 				}
 			}
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 			auto pkey{ create_ec_pub_key(pubkey_bio.get(), public_key_password) };
 			if (!pkey) {
 				//throw "failed to load public key: PEM_read_bio_EC_PUBKEY failed:" + std::string(ERR_error_string(ERR_get_error(), NULL));
@@ -52,6 +54,10 @@ namespace cyng
 			}
 
 			return pkey;
+#endif
+//			using EC_KEY_ptr = std::unique_ptr<EC_KEY, decltype(&::EC_KEY_free)>;
+
+			return std::unique_ptr<EC_KEY, decltype(&::EC_KEY_free)>(nullptr, [](EC_KEY*) {});
 		}
 
 		EC_KEY_ptr create_ec_priv_key(const std::string& private_key
@@ -65,6 +71,8 @@ namespace cyng
 				//throw ecdsa_exception("failed to load private key: bio_write failed");
 			}
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 			auto pkey{ create_ec_priv_key(privkey_bio.get(), private_key_password) };
 			if (!pkey) {
 				throw "failed to load private key: PEM_read_bio_ECPrivateKey failed";
@@ -76,6 +84,11 @@ namespace cyng
 				//throw ecdsa_exception("invalid key size");
 			}
 			return pkey;
+#else
+			return std::unique_ptr<EC_KEY, decltype(&::EC_KEY_free)>(nullptr, [](EC_KEY*) {});
+
+#endif
+
 		}
 
 		EC_KEY_ptr create_ec_key(const std::string& public_key
@@ -124,6 +137,8 @@ namespace cyng
 			{
 				auto const hash = generate_hash(data);
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 				auto sig = do_sign(hash, pkey_.get());
 				if (!sig) throw "signature_generation_exception()";
 
@@ -143,6 +158,10 @@ namespace cyng
 				while (rr.size() != signature_length_ / 2) rr = '\0' + rr;
 				while (rs.size() != signature_length_ / 2) rs = '\0' + rs;
 				return rr + rs;
+#else
+				return "";
+#endif
+
 			}
 
 			void ecdsa::verify(const std::string& data, const std::string& signature) const
@@ -164,10 +183,13 @@ namespace cyng
 				auto sig = create_ecdsa_sig();
 				ECDSA_SIG_set0(sig.get(), r.release(), s.release());
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 				if (ECDSA_do_verify((const unsigned char*)hash.data(), static_cast<int>(hash.size()), sig.get(), pkey_.get()) != 1) {
 					throw "Invalid signature";
 //					//throw signature_verification_exception("Invalid signature");
 				}
+#endif
 #endif			
 			}
 

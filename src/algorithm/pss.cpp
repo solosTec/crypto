@@ -25,7 +25,12 @@ namespace cyng
 			else if (!public_key.empty()) {
 				return load_public_key_from_string(public_key, public_key_password);
 			}
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 			return create_evp_pkey();
+#else
+			return std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>(nullptr, [](EVP_PKEY*) {});
+#endif
+
 		}
 
 		namespace algorithm
@@ -45,6 +50,8 @@ namespace cyng
 			{
 				auto const hash = generate_hash(data);
 
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
 				auto const key = create_rsa_key(pkey_.get());
 				int const size = RSA_size(key.get());
 
@@ -60,11 +67,16 @@ namespace cyng
 					//throw signature_generation_exception("failed to create signature: RSA_private_encrypt failed");
 				}
 				return res;
+#else
+				return "";
+#endif
 			}
 
 			void pss::verify(const std::string& data, const std::string& signature) const 
 			{
 				auto const hash = generate_hash(data);
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
 				auto const key = create_rsa_key(pkey_.get());
 				int const size = RSA_size(key.get());
@@ -79,6 +91,7 @@ namespace cyng
 					throw "Invalid signature";
 					//throw signature_verification_exception("Invalid signature");
 				}
+#endif
 			}
 
 			std::string pss::generate_hash(std::string const& data) const
