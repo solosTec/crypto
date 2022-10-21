@@ -5,19 +5,19 @@ C++ wrapper for OpenSLL - companion of CYNG library
 ## Build on Linux (x64)
 
 ```
-$ mkdir build/x64 && cd build/x64
-$ cmake -DCRYPT_BUILD_TEST:bool=ON -DCMAKE_BUILD_TYPE=Debug ../..
-$ make
+cmake -S . -B build -DCRYPT_BUILD_TEST:BOOL=ON -DCMAKE_BUILD_TYPE=Release -G Ninja
+cmake --build build
+sudo cmake --install build
 ```
 
 ## Cross Compilation
 
-(1) download and extract latest [OpenSSL library](http://www.openssl.org/source/openssl-1.1.1.tar.gz)
+(1) download and extract latest [OpenSSL library](https://www.openssl.org/source/openssl-3.0.5.tar.gz)
 
 ```
-wget http://www.openssl.org/source/openssl-1.1.1.tar.gz
-tar -xvzf openssl-1.1.1.tar.gz
-cd openssl-1.1.1
+wget https://www.openssl.org/source/openssl-3.0.5.tar.gz
+tar -xvzf openssl-3.0.5.tar.gz
+cd openssl-3.0.5
 ```
 
 
