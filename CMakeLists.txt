@@ -12,47 +12,23 @@ project(crypt
 
 
 #                                                                                            
-#        *******         *****   **    **        ***** **                                    
-#      *       ***    ******  ***** *****     ******  **** *                                 
-#     *         **   **   *  *  ***** *****  **   *  *  ***                                  
-#     **        *   *    *  *   * **  * **  *    *  *    *                                   
-#      ***              *  *    *     *         *  *            ****                         
-#     ** ***           ** **    *     *        ** **           * **** *    ***       ****    
-#      *** ***         ** **    *     *        ** **          **  ****    * ***     * ***  * 
-#        *** ***       ** **    *     *        ** ******     ****        *   ***   *   ****  
-#          *** ***     ** **    *     *        ** *****        ***      **    *** **         
-#            ** ***    ** **    *     **       ** **             ***    ********  **         
-#             ** **    *  **    *     **       *  **               ***  *******   **         
-#              * *        *     *      **         *           ****  **  **        **         
-#    ***        *     ****      *      **     *****          * **** *   ****    * ***     *  
-#   *  *********     *  *****           **   *  *****           ****     *******   *******   
-#  *     *****      *     **                *    ***                      *****     *****    
-#  *                *                       *                                                
-#   **               **                      **                                              
-#                                                                                            
-#                                                                                            
+#
+#   _____ __  _________                  
+#  / ___//  |/  / ____/_______  _____    
+#  \__ \/ /|_/ / /_  / ___/ _ \/ ___/    
+# ___/ / /  / / __/ (__  )  __/ /__      
+#/____/_/  /_/_/   /____/\___/\___/      
+#                                                        
 #                                                                                            
 																					  
 
-message(STATUS "**  ")                                                                                          
-message(STATUS "**        *******         *****   **    **        ***** **                                    ")
-message(STATUS "**      *       ***    ******  ***** *****     ******  **** *                                 ")
-message(STATUS "**     *         **   **   *  *  ***** *****  **   *  *  ***                                  ")
-message(STATUS "**     **        *   *    *  *   * **  * **  *    *  *    *                                   ")
-message(STATUS "**      ***              *  *    *     *         *  *            ****                         ")
-message(STATUS "**     ** ***           ** **    *     *        ** **           * **** *    ***       ****    ")
-message(STATUS "**      *** ***         ** **    *     *        ** **          **  ****    * ***     * ***  * ")
-message(STATUS "**        *** ***       ** **    *     *        ** ******     ****        *   ***   *   ****  ")
-message(STATUS "**          *** ***     ** **    *     *        ** *****        ***      **    *** **         ")
-message(STATUS "**            ** ***    ** **    *     **       ** **             ***    ********  **         ")
-message(STATUS "**             ** **    *  **    *     **       *  **               ***  *******   **         ")
-message(STATUS "**              * *        *     *      **         *           ****  **  **        **         ")
-message(STATUS "**    ***        *     ****      *      **     *****          * **** *   ****    * ***     *  ")
-message(STATUS "**   *  *********     *  *****           **   *  *****           ****     *******   *******   ")
-message(STATUS "**  *     *****      *     **                *    ***                      *****     *****    ")
-message(STATUS "**  *                *                       *                                                ")
-message(STATUS "**   **               **                      **                                              ")
-message(STATUS "**                                                                                            ")
+message(STATUS "**")                                                                         
+message(STATUS "**     _____ __  _________                  ")
+message(STATUS "**    / ___//  |/  / ____/_______  _____    ")
+message(STATUS "**    \\__ \\/ /|_/ / /_  / ___/ _ \\/ ___/    ")
+message(STATUS "**   ___/ / /  / / __/ (__  )  __/ /__      ")
+message(STATUS "**  /____/_/  /_/_/   /____/\\___/\\___/      ")
+message(STATUS "**")
 #                                                                                            
 #                                                                                            
 
@@ -64,6 +40,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	#
 	include(cmake/safeguards.cmake)
 
+    message(STATUS "** Project            : ${PROJECT_NAME}")
     message(STATUS "** CMake              : ${CMAKE_VERSION}")
 	message(STATUS "** Compiler           : ${CMAKE_CXX_COMPILER_ID} v${CMAKE_CXX_COMPILER_VERSION}")
 
@@ -99,6 +76,13 @@ endif()
 # place binaries and libraries according to GNU standards
 #
 include(GNUInstallDirs)
+
+set(Boost_NO_BOOST_CMAKE OFF)
+find_package(Boost 1.76 REQUIRED COMPONENTS unit_test_framework system)
+
+message(STATUS "** Boost Version         : ${Boost_VERSION}")
+message(STATUS "** Boost Include         : ${Boost_INCLUDE_DIRS}")
+message(STATUS "** Boost Path            : ${Boost_LIBRARY_DIRS}")
 
 #
 #	OpenSSL
@@ -217,6 +201,7 @@ target_link_libraries(smfsec
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} 
     PRIVATE
         ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY}
+		Boost::boost 
 )
 
 set_target_properties(smfsec 
@@ -281,7 +266,7 @@ endif()
 #
 if(${PROJECT_NAME}_UNIT_TEST)
 
-	find_package(Boost 1.75 REQUIRED COMPONENTS unit_test_framework)
+#	find_package(Boost 1.75 REQUIRED COMPONENTS unit_test_framework)
 	if(Boost_FOUND)
 		include (test/unit-test.cmake)
 		add_executable(unit_test ${unit_test})
