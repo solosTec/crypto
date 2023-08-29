@@ -1,87 +1,84 @@
 
 /*
  * The MIT License (MIT)
- * 
- * Copyright (c) 2019 Sylko Olzscher 
- * 
- */ 
+ *
+ * Copyright (c) 2019 Sylko Olzscher
+ *
+ */
 
 #include "test-crypto-002.h"
-#include <iostream>
 #include <boost/test/unit_test.hpp>
-//#include <cyng/compatibility/general.h>
+#include <iostream>
+// #include <cyng/compatibility/general.h>
 #include <cyng/obj/intrinsics/aes_key.hpp>
 
-namespace cyng 
-{
-	bool test_crypto_002()
-	{
-		{
-			//
-			//	AES ECB
-			//
+BOOST_AUTO_TEST_SUITE(AES)
 
-			crypto::aes_128_key key;
-			// crypto::aes::randomize(key);
+BOOST_AUTO_TEST_CASE(AES) {
+    {
+        //
+        //	AES ECB
+        //
 
-			cyng::buffer_t inp{ 'h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!', '\0' };
-			// auto enc = crypto::aes::encrypt(inp, key);
-			// auto dec = crypto::aes::decrypt(enc, key);
-            // BOOST_CHECK_EQUAL(inp.size(), 14);
-            // BOOST_CHECK_EQUAL(dec.size(), 16);
-            // for(std::size_t idx = 0; idx < inp.size(); ++idx) {
-            //     BOOST_CHECK_EQUAL(inp.at(idx), dec.at(idx));
-            // }
-		}
+        cyng::crypto::aes_128_key key;
+        // crypto::aes::randomize(key);
 
-		{
-			//
-			//	AES CBC
-			//
+        cyng::buffer_t inp{'h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!', '\0'};
+        // auto enc = crypto::aes::encrypt(inp, key);
+        // auto dec = crypto::aes::decrypt(enc, key);
+        // BOOST_CHECK_EQUAL(inp.size(), 14);
+        // BOOST_CHECK_EQUAL(dec.size(), 16);
+        // for(std::size_t idx = 0; idx < inp.size(); ++idx) {
+        //     BOOST_CHECK_EQUAL(inp.at(idx), dec.at(idx));
+        // }
+    }
 
-			crypto::aes_128_key key;
-			// crypto::aes::randomize(key);
+    {
+        //
+        //	AES CBC
+        //
 
-			// crypto::aes::iv_t iv;
-			// BOOST_ASSERT(iv.size() == AES_BLOCK_SIZE);
-			// crypto::aes::randomize(iv);
+        cyng::crypto::aes_128_key key;
+        // crypto::aes::randomize(key);
 
-			// cyng::buffer_t inp{ 'h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!' };
-			// auto enc = crypto::aes::encrypt(inp, key, iv);
-			// auto dec = crypto::aes::decrypt(enc, key, iv);
+        // crypto::aes::iv_t iv;
+        // BOOST_ASSERT(iv.size() == AES_BLOCK_SIZE);
+        // crypto::aes::randomize(iv);
 
-            // BOOST_CHECK_EQUAL(inp.size(), 13);
-            // BOOST_CHECK_EQUAL(dec.size(), 16);
-            // for(std::size_t idx = 0; idx < inp.size(); ++idx) {
-            //     BOOST_CHECK_EQUAL(inp.at(idx), dec.at(idx));
-            // }
-		}
+        // cyng::buffer_t inp{ 'h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd', '!' };
+        // auto enc = crypto::aes::encrypt(inp, key, iv);
+        // auto dec = crypto::aes::decrypt(enc, key, iv);
 
-		{
-			//	init key
-			crypto::aes_128_key key;
-			key.key_ = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x11 };
+        // BOOST_CHECK_EQUAL(inp.size(), 13);
+        // BOOST_CHECK_EQUAL(dec.size(), 16);
+        // for(std::size_t idx = 0; idx < inp.size(); ++idx) {
+        //     BOOST_CHECK_EQUAL(inp.at(idx), dec.at(idx));
+        // }
+    }
 
-			// crypto::aes::iv_t iv{ 0x93, 0x15, 0x78, 0x56, 0x34, 0x12, 0x33, 0x03, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A };
+    {
+        //	init key
+        cyng::crypto::aes_128_key key;
+        key.key_ = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x11};
 
-			// //	prepare input
-			// cyng::buffer_t inp = cyng::make_buffer({ 0x59, 0x23, 0xc9, 0x5a, 0xaa, 0x26, 0xd1, 0xb2, 0xe7, 0x49, 0x3b, 0x01, 0x3e, 0xc4, 0xa6, 0xf6 });
+        // crypto::aes::iv_t iv{ 0x93, 0x15, 0x78, 0x56, 0x34, 0x12, 0x33, 0x03, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A, 0x2A
+        // };
 
-			// auto dec = crypto::aes::decrypt(inp, key, iv);
+        // //	prepare input
+        // cyng::buffer_t inp = cyng::make_buffer({ 0x59, 0x23, 0xc9, 0x5a, 0xaa, 0x26, 0xd1, 0xb2, 0xe7, 0x49, 0x3b, 0x01,
+        // 0x3e, 0xc4, 0xa6, 0xf6 });
 
-			// //	expected output:
-			// //	2F 2F 0C 14 27 04 85 02 04 6D 32 37 1F 15 02 FD
-			// BOOST_CHECK_EQUAL(dec.size(), 16);
-			// if (dec.size() == 16) {
+        // auto dec = crypto::aes::decrypt(inp, key, iv);
 
-			// 	BOOST_CHECK_EQUAL((dec.at(0) & 0xFF), 0x2F);
-			// 	BOOST_CHECK_EQUAL((dec.at(1) & 0xFF), 0x2F);
-			// 	BOOST_CHECK_EQUAL((dec.at(15) & 0xFF), 0xFD);
-			// }
-		}
+        // //	expected output:
+        // //	2F 2F 0C 14 27 04 85 02 04 6D 32 37 1F 15 02 FD
+        // BOOST_CHECK_EQUAL(dec.size(), 16);
+        // if (dec.size() == 16) {
 
-
-		return true;
-	}
-	
+        // 	BOOST_CHECK_EQUAL((dec.at(0) & 0xFF), 0x2F);
+        // 	BOOST_CHECK_EQUAL((dec.at(1) & 0xFF), 0x2F);
+        // 	BOOST_CHECK_EQUAL((dec.at(15) & 0xFF), 0xFD);
+        // }
+    }
 }
+BOOST_AUTO_TEST_SUITE_END()

@@ -5,9 +5,12 @@
  *
  */
 
-#include <assert.h>
-#include <smfsec/bio.h>
 #include <smfsec/factory.h>
+
+#include <smfsec/bio.h>
+
+#include <assert.h>
+#include <boost/assert.hpp>
 
 namespace cyng {
     namespace crypto {
@@ -27,13 +30,24 @@ namespace cyng {
             return p;
         }
 
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
+        X509_ptr create_x509(long v) {
+            BOOST_ASSERT_MSG(v <= X509_VERSION_3, "invalid X509 version");
+            auto p = X509_ptr(X509_new(), X509_free);
+            X509_set_version(p.get(), v);
+            return p;
+        }
+
+        X509_ptr create_x509(const std::string &certstr, const std::string &pw) {
+            auto certbio = create_bio_str(certstr);
+            X509 *x509 = PEM_read_bio_X509(certbio.release(), nullptr, nullptr, const_cast<char *>(pw.c_str()));
+            return X509_ptr(x509, X509_free);
+        }
 
         RSA_ptr create_rsa() { return RSA_ptr(::RSA_new(), ::RSA_free); }
 
         RSA_ptr create_rsa_key(BIGNUM *bnp, int bits) {
             auto p = create_rsa();
-            auto ret = RSA_generate_key_ex(p.get(), bits, bnp, NULL);
+            auto ret = RSA_generate_key_ex(p.release(), bits, bnp, NULL);
             assert(ret == 1);
             return p;
         }
@@ -42,24 +56,14 @@ namespace cyng {
             return (key != nullptr) ? RSA_ptr(::EVP_PKEY_get1_RSA(key), ::RSA_free) : create_rsa();
         }
 
-        X509_ptr create_x509(long v) {
-            auto p = X509_ptr(X509_new(), X509_free);
-            X509_set_version(p.get(), v);
-            return p;
-        }
-
-        X509_ptr create_x509(const std::string &certstr, const std::string &pw) {
-            auto certbio = create_bio_str(certstr);
-            X509 *x509 = PEM_read_bio_X509(certbio.get(), nullptr, nullptr, const_cast<char *>(pw.c_str()));
-            return X509_ptr(x509, X509_free);
-        }
-
         X509_REQ_ptr create_x509_request(int v) {
             auto p = X509_REQ_ptr(X509_REQ_new(), X509_REQ_free);
             auto ret = X509_REQ_set_version(p.get(), v);
             assert(ret == 1);
             return p;
         }
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
         EVP_PKEY_ptr create_evp_pkey() { return EVP_PKEY_ptr(EVP_PKEY_new(), EVP_PKEY_free); }
 
@@ -110,24 +114,6 @@ namespace cyng {
         }
 
         ECDSA_SIG_ptr create_ecdsa_sig() { return ECDSA_SIG_ptr(::ECDSA_SIG_new(), ::ECDSA_SIG_free); }
-
-        BIO_ptr create_bio(BIO_METHOD const *pm) { return BIO_ptr(BIO_new(pm), BIO_free); }
-
-        BIO_ptr create_bio_s_mem() { return create_bio(BIO_s_mem()); }
-        BIO_ptr create_bio_s_secmem() { return create_bio(BIO_s_secmem()); }
-#ifndef OPENSSL_NO_SOCK
-        BIO_ptr create_bio_s_socket() { return create_bio(BIO_s_socket()); }
-        BIO_ptr create_bio_s_connect() { return create_bio(BIO_s_connect()); }
-        BIO_ptr create_bio_s_accept() { return create_bio(BIO_s_accept()); }
-#endif
-        BIO_ptr create_bio_s_fd() { return create_bio(BIO_s_fd()); }
-        BIO_ptr create_bio_s_log() { return create_bio(BIO_s_log()); }
-        BIO_ptr create_bio_s_bio() { return create_bio(BIO_s_bio()); }
-        BIO_ptr create_bio_s_null() { return create_bio(BIO_s_null()); }
-        BIO_ptr create_bio_f_null() { return create_bio(BIO_f_null()); }
-        BIO_ptr create_bio_f_buffer() { return create_bio(BIO_f_buffer()); }
-        BIO_ptr create_bio_f_linebuffer() { return create_bio(BIO_f_linebuffer()); }
-        BIO_ptr create_bio_f_nbio_test() { return create_bio(BIO_f_nbio_test()); }
 
     } // namespace crypto
 } // namespace cyng

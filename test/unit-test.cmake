@@ -27,6 +27,6 @@ set (unit_test_h
 # define the unit test
 set (unit_test
   ${unit_test_cpp}
-  ${unit_test_h}
+#  ${unit_test_h}
 )
 

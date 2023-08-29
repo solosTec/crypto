@@ -18,7 +18,7 @@ namespace cyng
 		bool print_stdout_private(EVP_PKEY*);
 		bool print_stdout_params(EVP_PKEY*);
 
-		bool print_stdout_X509(X509*);
+		bool print_stdout_X509(X509 const*);
 #if OPENSSL_VERSION_NUMBER < 0x10100000L
 		/**
 		 * RSA* pointer not longer supported

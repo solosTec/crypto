@@ -21,9 +21,26 @@ namespace cyng {
         BN_ptr create_bignum_from_hex(std::string);
         BN_ptr create_bignum_rsa_f4();
 
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
         /**
-         * create a RSA structure
+         * provide a X509 structure.
+         * Represents an x509 certificate in memory.
+         * A value of 2 stands for version 1.3, a value of 1 encodes
+         * version 1.2.
+         * The values of these constants are defined by standards (X.509 et al)
+         * to be one less than the certificate version. So X509_VERSION_3 has
+         * value 2 and X509_VERSION_1 has value 0.
+         *
+         * @param v version (usually == 2)
+         */
+        X509_ptr create_x509(long v);
+
+        /**
+         * Create a X509 from a certificate string and password
+         */
+        X509_ptr create_x509(const std::string &certstr, const std::string &pw);
+
+        /**
+         * create an empty RSA structure
          */
         RSA_ptr create_rsa();
 
@@ -38,26 +55,13 @@ namespace cyng {
         RSA_ptr create_rsa_key(EVP_PKEY *);
 
         /**
-         * provide a X509 structure.
-         * Represents an x509 certificate in memory.
-         * A value of 2 stands for version 1.3, a value of 1 encodes
-         * version 1.2.
-         *
-         * @param v version (usually == 2)
-         */
-        X509_ptr create_x509(long v);
-
-        /**
-         * Create a X509 from a certificate string and password
-         */
-        X509_ptr create_x509(const std::string &certstr, const std::string &pw);
-
-        /**
          * create a x509 request structure
          *
          * @param v version (mostly 1)
          */
         X509_REQ_ptr create_x509_request(int v);
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
 
         /**
          * create a key store
@@ -124,26 +128,6 @@ namespace cyng {
          * value of an ECDSA signature (see X9.62 or FIPS 186-2).
          */
         ECDSA_SIG_ptr create_ecdsa_sig();
-
-        /**
-         * There gazillions of BIO methods
-         */
-        BIO_ptr create_bio(BIO_METHOD const *);
-        BIO_ptr create_bio_s_mem();
-        BIO_ptr create_bio_s_secmem();
-#ifndef OPENSSL_NO_SOCK
-        BIO_ptr create_bio_s_socket();
-        BIO_ptr create_bio_s_connect();
-        BIO_ptr create_bio_s_accept();
-#endif
-        BIO_ptr create_bio_s_fd();
-        BIO_ptr create_bio_s_log();
-        BIO_ptr create_bio_s_bio();
-        BIO_ptr create_bio_s_null();
-        BIO_ptr create_bio_f_null();
-        BIO_ptr create_bio_f_buffer();
-        BIO_ptr create_bio_f_linebuffer();
-        BIO_ptr create_bio_f_nbio_test();
 
         BIO_ptr create_connection();
     } // namespace crypto

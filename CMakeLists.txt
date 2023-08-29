@@ -161,8 +161,19 @@ set (smfsec_algorithm
 	include/smfsec/algorithm/pss.h
 )
 
+# Cryptographic Message Syntax
+set (smfsec_cms
+	src/cms/pkcs7.cpp
+	src/cms/pem.cpp
+	src/cms/x509.cpp
+	include/smfsec/cms/pkcs7.h
+	include/smfsec/cms/pem.h
+	include/smfsec/cms/x509.h
+)
+
 source_group("hash" FILES ${smfsec_hash})
 source_group("algorithm" FILES ${smfsec_algorithm})
+source_group("CMS" FILES ${smfsec_cms})
 
 
 #
@@ -176,7 +187,7 @@ add_library(smfsec ${GLOBAL_LIBRARY_TYPE}
 	src/init.cpp 
 	src/error.cpp 
 	src/bignum.cpp 
-	src/print.cpp 
+	src/print.cpp  # debug build only
 	src/read.cpp 
 	src/write.cpp 
 	src/generate.cpp 
@@ -184,7 +195,8 @@ add_library(smfsec ${GLOBAL_LIBRARY_TYPE}
 	src/jwt.cpp
 	src/signatures.cpp
 	${smfsec_hash}
-	${smfsec_algorithm})
+	${smfsec_algorithm}
+	${smfsec_cms})
 target_compile_features(smfsec PRIVATE cxx_std_11)
 
 target_include_directories(smfsec
@@ -271,9 +283,11 @@ if(${PROJECT_NAME}_UNIT_TEST)
 		include (test/unit-test.cmake)
 		add_executable(unit_test ${unit_test})
 
-		set_property(
-			TARGET unit_test
-			PROPERTY COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
+		target_compile_definitions(unit_test
+			PRIVATE 
+				BOOST_TEST_DYN_LINK 
+				$<$<CONFIG:Debug>:_DEBUG_UNIT_TEST>
+			)
 
 		target_include_directories(unit_test
 			PRIVATE
@@ -287,8 +301,6 @@ if(${PROJECT_NAME}_UNIT_TEST)
 			PRIVATE
 				smfsec 
 				${cyng_obj}
-#				"$<$<PLATFORM_ID:Linux>:${CYNG_LIBRARY}/cyng_core.so>"
-#				"$<$<PLATFORM_ID:Windows>:${CYNG_LIBRARY}/Debug/cyng_core.lib>"
 				${OPENSSL_CRYPTO_LIBRARY} 
 				${OPENSSL_SSL_LIBRARY} 
 				${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 
