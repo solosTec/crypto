@@ -31,7 +31,9 @@ namespace cyng {
         }
 
         X509_ptr create_x509(long v) {
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
             BOOST_ASSERT_MSG(v <= X509_VERSION_3, "invalid X509 version");
+#endif
             auto p = X509_ptr(X509_new(), X509_free);
             X509_set_version(p.get(), v);
             return p;
