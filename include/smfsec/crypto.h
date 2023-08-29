@@ -47,12 +47,15 @@ namespace cyng {
          */
         using EVP_PKEY_ptr = std::unique_ptr<EVP_PKEY, decltype(&::EVP_PKEY_free)>;
 
+#if OPENSSL_VERSION_NUMBER > 0x30000000L
+
         /**
          * EVP_CIPHER is a structure for cipher method implementation.
          *
          * @see https://www.openssl.org/docs/man3.1/man3/EVP_Cipher.html
          */
         using EVP_CIPHER_ptr = std::unique_ptr<EVP_CIPHER, decltype(&::EVP_CIPHER_free)>;
+#endif
 
         /**
          * An EC_KEY represents a public key and, optionally, the associated private key.
