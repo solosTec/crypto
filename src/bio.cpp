@@ -7,6 +7,8 @@
 
 #include <smfsec/bio.h>
 
+#include <string.h>
+
 namespace cyng {
     namespace crypto {
         BIO_ptr create_bio() { return BIO_ptr(nullptr, BIO_free); }
