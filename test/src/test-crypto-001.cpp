@@ -6,13 +6,13 @@
  *
  */
 
-#include "test-crypto-001.h"
 #include <boost/test/unit_test.hpp>
+
 #include <iostream>
 
 #include <smfsec/hash/base64.h>
 
-BOOST_AUTO_TEST_SUITE(ToDo)
+BOOST_AUTO_TEST_SUITE(hash)
 
 using namespace std::string_literals;
 

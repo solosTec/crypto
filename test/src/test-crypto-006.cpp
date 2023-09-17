@@ -6,8 +6,6 @@
  *
  */
 
-#include "test-crypto-006.h"
-
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 

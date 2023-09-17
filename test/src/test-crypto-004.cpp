@@ -6,9 +6,10 @@
  *
  */
 
-#include "test-crypto-004.h"
 #include <boost/test/unit_test.hpp>
+
 #include <iostream>
+
 #include <smfsec/generate.h>
 
 BOOST_AUTO_TEST_SUITE(CR)
@@ -27,18 +28,12 @@ BOOST_AUTO_TEST_CASE(CR) {
     //	generate a certification request
     //
     if (cyng::crypto::generate_x509_cert_request(
-            "CH" //	country
-            ,
-            "LU" //	province
-            ,
-            "LU" //	city
-            ,
-            "solosTec" //	organization
-            ,
-            "solostec.com" //	common
-            ,
-            "x509Req.pem" //	output file
-            ,
+            "CH",           //	country
+            "LU",           //	province
+            "LU",           //	city
+            "solosTec",     //	organization
+            "solostec.com", //	common
+            "x509Req.pem",  //	output file
             2048)) {
 
         //

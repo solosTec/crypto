@@ -21,6 +21,8 @@ namespace cyng {
         BN_ptr create_bignum_from_hex(std::string);
         BN_ptr create_bignum_rsa_f4();
 
+        BN_CTX_ptr create_bignum_ctx();
+
         /**
          * provide a X509 structure.
          * Represents an x509 certificate in memory.
@@ -129,7 +131,18 @@ namespace cyng {
          */
         ECDSA_SIG_ptr create_ecdsa_sig();
 
-        BIO_ptr create_connection();
+        // BIO_ptr create_connection();
+
+        /**
+         * There are a lot more options like EC_GROUP_new_from_ecparameters()
+         */
+        EC_GROUP_ptr create_ec_group_by_curvename(int);
+
+        /**
+         * EC_KEY_new_by_curve_name()
+         */
+        EC_KEY_ptr create_ec_key_by_curve_name(int);
+
     } // namespace crypto
 } // namespace cyng
 

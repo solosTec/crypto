@@ -28,7 +28,7 @@ namespace cyng {
             BIO_write_filename(p.get(), (void *)filename);
             return p;
         }
-        BIO_ptr create_bio_file_appen(const char *filename) {
+        BIO_ptr create_bio_file_append(const char *filename) {
             BIO_ptr p = create_bio_s_file();
             BIO_append_filename(p.get(), (void *)filename);
             return p;
@@ -77,9 +77,9 @@ namespace cyng {
             return BIO_ptr(BIO_new_fp(stdin, BIO_NOCLOSE), BIO_free);
         }
 
-        BIO_ptr create_bio_stdout() { return BIO_ptr(BIO_new_fp(stdout, BIO_NOCLOSE), BIO_free); }
+        BIO_ptr create_bio_stdout() { return BIO_ptr(::BIO_new_fp(stdout, BIO_NOCLOSE), ::BIO_free); }
 
-        BIO_ptr create_bio_stderr() { return BIO_ptr(BIO_new_fp(stderr, BIO_NOCLOSE), BIO_free); }
+        BIO_ptr create_bio_stderr() { return BIO_ptr(::BIO_new_fp(stderr, BIO_NOCLOSE), ::BIO_free); }
 
         BIO_ADDR_ptr create_bio_addr() { return BIO_ADDR_ptr(BIO_ADDR_new(), BIO_ADDR_free); }
 
@@ -104,7 +104,9 @@ namespace cyng {
             if (p) {
                 char *ptr = nullptr;
                 auto len = BIO_get_mem_data(p, &ptr);
-                return std::string(ptr, len);
+                if (len > 0) {
+                    return std::string(ptr, len);
+                };
             }
             return std::string{};
         }
@@ -128,6 +130,14 @@ namespace cyng {
         BIO_ptr create_bio_f_buffer() { return create_bio(BIO_f_buffer()); }
         BIO_ptr create_bio_f_linebuffer() { return create_bio(BIO_f_linebuffer()); }
         BIO_ptr create_bio_f_nbio_test() { return create_bio(BIO_f_nbio_test()); }
+
+        std::string get_name(BIO *p) {
+            const char *cp = ::BIO_method_name(p);
+            if (cp != nullptr && ::strlen(cp) > 0) {
+                return std::string(cp);
+            }
+            return std::string{};
+        }
 
     } // namespace crypto
 } // namespace cyng

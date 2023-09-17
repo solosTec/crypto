@@ -6,13 +6,13 @@
  *
  */
 
-#include "test-crypto-002.h"
 #include <boost/test/unit_test.hpp>
+
 #include <iostream>
-// #include <cyng/compatibility/general.h>
+
 #include <cyng/obj/intrinsics/aes_key.hpp>
 
-BOOST_AUTO_TEST_SUITE(AES)
+BOOST_AUTO_TEST_SUITE(cipher)
 
 BOOST_AUTO_TEST_CASE(AES) {
     {

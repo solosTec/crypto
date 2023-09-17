@@ -37,6 +37,8 @@ namespace cyng {
          * Use RAII to free all pointers automatically.
          */
         using BN_ptr = std::unique_ptr<BIGNUM, decltype(&::BN_free)>;
+        using BN_CTX_ptr = std::unique_ptr<BN_CTX, decltype(&::BN_CTX_free)>;
+
         using RSA_ptr = std::unique_ptr<RSA, decltype(&::RSA_free)>;
 
         /**
@@ -66,15 +68,19 @@ namespace cyng {
         using BIO_ADDR_ptr = std::unique_ptr<BIO_ADDR, decltype(&::BIO_ADDR_free)>;
 
         using BIO_ptr_all = std::unique_ptr<BIO, decltype(&::BIO_free_all)>;
-        using BIO_METHOD_ptr = std::unique_ptr<BIO_METHOD, decltype(&::BIO_meth_free)>;
+        using BIO_METHOD_ptr = std::unique_ptr<const BIO_METHOD, decltype(&::BIO_meth_free)>;
 
         /**
          *  Represents an x509 certificate in memory.
          */
         using X509_ptr = std::unique_ptr<X509, decltype(&::X509_free)>;
         using X509_REQ_ptr = std::unique_ptr<X509_REQ, decltype(&::X509_REQ_free)>;
+
+        // X509_NAME pointer must not be freed
         // using X509_NAME_ptr = std::unique_ptr<X509_NAME, decltype(&::???)>;
+
         using X509_STORE_ptr = std::unique_ptr<X509_STORE, decltype(&::X509_STORE_free)>;
+        using X509_STORE__CTX_ptr = std::unique_ptr<X509_STORE_CTX, decltype(&::X509_STORE_CTX_free)>;
 
         /**
          *  Represents an PKCS #7 certificate
@@ -110,6 +116,10 @@ namespace cyng {
         namespace x509 {
             class set;
         }
+
+        //  consider using EC_GROUP_clear_free()
+        using EC_GROUP_ptr = std::unique_ptr<EC_GROUP, decltype(&EC_GROUP_free)>;
+
     } // namespace crypto
 } // namespace cyng
 #endif

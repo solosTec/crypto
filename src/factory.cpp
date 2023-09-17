@@ -30,6 +30,8 @@ namespace cyng {
             return p;
         }
 
+        BN_CTX_ptr create_bignum_ctx() { return BN_CTX_ptr(BN_CTX_new(), ::BN_CTX_free); }
+
         X509_ptr create_x509(long v) {
 #if OPENSSL_VERSION_NUMBER >= 0x30000000L
             BOOST_ASSERT_MSG(v <= X509_VERSION_3, "invalid X509 version");
@@ -116,6 +118,10 @@ namespace cyng {
         }
 
         ECDSA_SIG_ptr create_ecdsa_sig() { return ECDSA_SIG_ptr(::ECDSA_SIG_new(), ::ECDSA_SIG_free); }
+
+        EC_GROUP_ptr create_ec_group_by_curvename(int nid) { return EC_GROUP_ptr(EC_GROUP_new_by_curve_name(nid), EC_GROUP_free); }
+
+        EC_KEY_ptr create_ec_key_by_curve_name(int nid) { return EC_KEY_ptr(EC_KEY_new_by_curve_name(nid), EC_KEY_free); }
 
     } // namespace crypto
 } // namespace cyng

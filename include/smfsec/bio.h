@@ -13,6 +13,7 @@
 
 namespace cyng {
     namespace crypto {
+
         /**
          * Create a BIO nullptr
          */
@@ -31,7 +32,7 @@ namespace cyng {
         /**
          * append
          */
-        BIO_ptr create_bio_file_a(const char *filename);
+        // BIO_ptr create_bio_file_a(const char *filename);
 
         /**
          *  Flags can be: BIO_CLOSE, BIO_NOCLOSE (the close flag) BIO_FP_TEXT
@@ -146,13 +147,146 @@ namespace cyng {
         BIO_ptr create_bio_s_fd();
         BIO_ptr create_bio_s_log();
         BIO_ptr create_bio_s_bio();
+
+        /**
+         * @return null sink
+         */
         BIO_ptr create_bio_s_null();
+
+        /**
+         * @return null filter
+         */
         BIO_ptr create_bio_f_null();
         BIO_ptr create_bio_f_buffer();
         BIO_ptr create_bio_f_linebuffer();
         BIO_ptr create_bio_f_nbio_test();
 
-    } // namespace crypto
+        /**
+         * @return method name
+         */
+        std::string get_name(BIO *);
+
+        namespace bio {
+
+            /**
+             * BIO methods
+             * const BIO_METHOD *BIO_s_mem(void)
+             */
+            template <typename T> struct method {
+                method(T) {}
+            };
+            template <> struct method<const BIO_METHOD *(*)()> {
+                using fp = const BIO_METHOD *(*)();
+                fp fp_;
+                explicit method(fp p)
+                    : fp_(p) {}
+                const BIO_METHOD *operator()() const { return fp_(); }
+            };
+
+            /**
+             * BIO method without parameters
+             */
+            using m0 = method<const BIO_METHOD *(*)()>;
+
+            /** ToDo: Define traits
+             *
+             * BIO traits describe how BIO_METHOD and BIO structures
+             * can interact.
+             *
+             * - data source/sink (s)
+             * - filter (f)
+             * - control
+             * - pair
+             * - ...
+             */
+            template <typename M, typename C> struct trait {
+                using constructor = C;
+                trait(M m)
+                    : m_(m) {}
+                M m_;
+            };
+
+            /**
+             * BIO streams
+             *
+             */
+            template <typename T> struct stream {
+                stream(T) {}
+            };
+
+            /**
+             * BIO streams are described by BIO methods
+             *
+             */
+            template <> struct stream<m0> {
+                m0 m_;
+                explicit stream(m0 m)
+                    : m_(m) {}
+
+                /**
+                 * Initialize with function
+                 */
+                stream(m0::fp p)
+                    : m_(p) {}
+
+                BIO_ptr create() { return BIO_ptr(BIO_new(m_()), BIO_free); }
+                BIO_ptr create(bool eof) {
+                    BIO_ptr p = create();
+                    //  how to make sure that m_() produces BIO_s_mem?
+                    // BIO_ptr p = create(BIO_s_mem());
+                    if (eof)
+                        BIO_set_mem_eof_return(p.get(), -1);
+                    return p;
+                }
+            };
+
+            /**
+             * BIO streams described by higher level functions
+             *
+             */
+            template <> struct stream<BIO *(*)(FILE *, int)> {
+                using fp = BIO *(*)(FILE *, int);
+                explicit stream(fp p)
+                    : fp_(p) {}
+                BIO_ptr create(FILE *p, int n) { return BIO_ptr(fp_(p, n), BIO_free); }
+                fp fp_;
+            };
+
+            template <> struct stream<BIO *(*)(SSL_CTX *)> {
+                using fp = BIO *(*)(SSL_CTX *);
+                explicit stream(fp p)
+                    : fp_(p) {}
+                BIO_ptr create(SSL_CTX *ctx, const char *target) {
+                    BIO_ptr p(fp_(ctx), BIO_free);
+
+                    //
+                    //	set SSL_MODE_AUTO_RETRY mode
+                    //
+                    SSL *ssl = nullptr;
+                    BIO_get_ssl(p.get(), &ssl);
+                    if (ssl == nullptr)
+                        return p;
+
+                    //	Never bother the application with retries if the transport is blocking
+                    SSL_set_mode(ssl, SSL_MODE_AUTO_RETRY);
+
+                    //
+                    //	set target
+                    //
+                    BIO_set_conn_hostname(p.get(), target);
+                    return p;
+                }
+                fp fp_;
+            };
+            template <> struct stream<BIO *(*)(const char *)> {
+                using fp = BIO *(*)(const char *);
+                explicit stream(fp p)
+                    : fp_(p) {}
+                fp fp_;
+            };
+
+        } // namespace bio
+    }     // namespace crypto
 } // namespace cyng
 
 #endif

@@ -6,15 +6,17 @@
  *
  */
 
-#include "test-crypto-005.h"
 #include <boost/test/unit_test.hpp>
+
 #include <iostream>
 #include <openssl/err.h>
+
+#include <smfsec/bio.h>
 #include <smfsec/print.h>
 
-BOOST_AUTO_TEST_SUITE(x509)
+BOOST_AUTO_TEST_SUITE(BIOsuite)
 
-BOOST_AUTO_TEST_CASE(x509) {
+BOOST_AUTO_TEST_CASE(basics) {
 
     // auto dec = crypto::hash_string("hello, world", "sha256");
 
@@ -32,6 +34,17 @@ BOOST_AUTO_TEST_CASE(x509) {
     ERR_load_BIO_strings();
     SSL_load_error_strings();
     // OPENSSL_no_config();
+
+    typedef BIO *(*func1)(const char *, const char *);
+    func1 f1 = &BIO_new_file;
+
+    using func2 = BIO *(*)(FILE *, int);
+    cyng::crypto::bio::stream<func2> m2(&BIO_new_fp);
+
+    cyng::crypto::bio::stream<cyng::crypto::bio::m0> m3(&BIO_s_mem);
+    m3.create(true);
+
+    // cyng::crypto::bio::method<BIO *(*)(FILE *, int)> m(&BIO_new_file);
 
     // crypto::dump_evp("private.pem");
     // crypto::dump_evp("cakey.pem");
