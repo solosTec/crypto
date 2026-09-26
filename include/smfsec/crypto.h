@@ -39,7 +39,10 @@ namespace cyng {
         using BN_ptr = std::unique_ptr<BIGNUM, decltype(&::BN_free)>;
         using BN_CTX_ptr = std::unique_ptr<BN_CTX, decltype(&::BN_CTX_free)>;
 
+        // deprecated: Since OpenSSL 3.0
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
         using RSA_ptr = std::unique_ptr<RSA, decltype(&::RSA_free)>;
+#endif
 
         /**
          * EVP_PKEY objects are used to store a public key and (optionally) a private key,

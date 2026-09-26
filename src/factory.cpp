@@ -47,6 +47,8 @@ namespace cyng {
             return X509_ptr(x509, X509_free);
         }
 
+        // deprecated: Since OpenSSL 3.0
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
         RSA_ptr create_rsa() { return RSA_ptr(::RSA_new(), ::RSA_free); }
 
         RSA_ptr create_rsa_key(BIGNUM *bnp, int bits) {
@@ -59,7 +61,7 @@ namespace cyng {
         RSA_ptr create_rsa_key(EVP_PKEY *key) {
             return (key != nullptr) ? RSA_ptr(::EVP_PKEY_get1_RSA(key), ::RSA_free) : create_rsa();
         }
-
+#endif
         X509_REQ_ptr create_x509_request(int v) {
             auto p = X509_REQ_ptr(X509_REQ_new(), X509_REQ_free);
             auto ret = X509_REQ_set_version(p.get(), v);
@@ -120,6 +122,7 @@ namespace cyng {
         ECDSA_SIG_ptr create_ecdsa_sig() { return ECDSA_SIG_ptr(::ECDSA_SIG_new(), ::ECDSA_SIG_free); }
 
         EC_GROUP_ptr create_ec_group_by_curvename(int nid) { return EC_GROUP_ptr(EC_GROUP_new_by_curve_name(nid), EC_GROUP_free); }
+
 
         EC_KEY_ptr create_ec_key_by_curve_name(int nid) { return EC_KEY_ptr(EC_KEY_new_by_curve_name(nid), EC_KEY_free); }
 

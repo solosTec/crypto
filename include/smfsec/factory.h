@@ -41,6 +41,8 @@ namespace cyng {
          */
         X509_ptr create_x509(const std::string &certstr, const std::string &pw);
 
+        // deprecated: Since OpenSSL 3.0
+#if OPENSSL_VERSION_NUMBER < 0x30000000L
         /**
          * create an empty RSA structure
          */
@@ -55,7 +57,7 @@ namespace cyng {
          * Create RSA key from EVP structure
          */
         RSA_ptr create_rsa_key(EVP_PKEY *);
-
+#endif
         /**
          * create a x509 request structure
          *
@@ -137,6 +139,7 @@ namespace cyng {
          * There are a lot more options like EC_GROUP_new_from_ecparameters()
          */
         EC_GROUP_ptr create_ec_group_by_curvename(int);
+
 
         /**
          * EC_KEY_new_by_curve_name()
