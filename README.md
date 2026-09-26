@@ -15,9 +15,9 @@ sudo cmake --install build
 (1) download and extract latest [OpenSSL library](https://www.openssl.org/source/openssl-3.0.5.tar.gz)
 
 ```
-wget https://www.openssl.org/source/openssl-3.0.5.tar.gz
-tar -xvzf openssl-3.0.5.tar.gz
-cd openssl-3.0.5
+wget https://www.openssl.org/source/openssl-3.6.4.tar.gz
+tar -xvzf openssl-3.6.4.tar.gz
+cd openssl-3.6.4
 ```
 
 
